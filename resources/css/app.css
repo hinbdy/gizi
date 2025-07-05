@@ -1,0 +1,119 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.select2-container {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.select2-container .select2-selection--single {
+  height: 44px !important;
+  padding: 8px 12px;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  border-color: #d1d5db;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 100% !important;
+}
+
+.select2-container--default .select2-results__option {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+  max-width: 100%;
+}
+
+.select2-container {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+.select2-container--default .select2-selection--single {
+  height: 44px !important;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  border-color: #d1d5db;
+  display: flex;
+  align-items: center;
+}
+
+@layer utilities {
+  /* Hide scrollbar */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  /* Pause animation on hover */
+  .pause-animate {
+    animation-play-state: paused;
+  }
+
+  /* Custom gradient backgrounds */
+  .bg-img-transparent {
+    background-image: linear-gradient(transparent, transparent);
+  }
+  .bg-img-purple-to-orange {
+    background-image: linear-gradient(to bottom right, #B05CB0, #FCB16B);
+  }
+  .bg-img-black-gradient {
+    background-image: linear-gradient(to bottom right, #1E1E1E, #181818);
+  }
+  .bg-img-black {
+    background-image: linear-gradient(#121212, #121212);
+  }
+    .fade-in {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+    .reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+
+  .reveal-on-scroll.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Autofill white text */
+  .autofull-no-bg:-webkit-autofill,
+  .autofull-no-bg:-webkit-autofill:hover,
+  .autofull-no-bg:-webkit-autofill:focus,
+  .autofull-no-bg:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
+    -webkit-text-fill-color: #fff !important;
+  }
+}
+
+/* =================================================================== */
+/* DITAMBAHKAN: KODE ANIMASI FADE-IN BARU UNTUK PERPINDAHAN HALAMAN */
+/* =================================================================== */
+
+/* Mendefinisikan animasi bernama 'fadeInPage' */
+@keyframes fadeInPage {
+    from {
+        opacity: 0;
+        transform: translateY(15px); /* Konten akan sedikit bergerak ke atas saat muncul */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Membuat kelas utility untuk menerapkan animasi */
+.animate-fade-in-main {
+    animation: fadeInPage 0.6s ease-out forwards;
+}

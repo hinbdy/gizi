@@ -2,46 +2,40 @@
     <div class="bg-gizila-radial py-12">
         <div class="container mx-auto max-w-7xl px-4 lg:px-8 mt-16">
             
-            {{-- Breadcrumbs --}}
+            {{-- Breadcrumbs (Navigasi Halaman, tidak diubah) --}}
             <nav class="text-sm mb-6" aria-label="Breadcrumb">
-                <ol class="list-none p-0 inline-flex items-center">
+                <ol class="list-none p-0 inline-flex items-center text-gray-600">
                     <li class="flex items-center">
-                        <a href="/" class="text-gray-500 hover:text-gray-700">Home</a>
+                        <a href="/" class="hover:text-green-700">Home</a>
                         <svg class="fill-current w-3 h-3 mx-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569 9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg>
                     </li>
                     <li class="flex items-center">
-                        <a href="{{ route('blog.index') }}" class="text-gray-500 hover:text-gray-700">Blog</a>
+                        <a href="{{ route('blog.index') }}" class="hover:text-green-700">Blog</a>
                         <svg class="fill-current w-3 h-3 mx-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569 9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg>
                     </li>
                     <li class="text-gray-400" aria-current="page">
-                        {{ Str::limit($article->title, 25) }}
+                        {{ Str::limit($article->title, 30) }}
                     </li>
                 </ol>
             </nav>
 
-            {{-- Layout Utama: Konten Kiri, Sidebar Kanan --}}
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-x-8 gap-y-12">
+            {{-- --- MULAI STRUKTUR BARU 2 KOLOM --- --}}
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-x-12 gap-y-12">
                 
-                {{-- KOLOM KONTEN UTAMA (KIRI) --}}
+                {{-- --- KOLOM KONTEN UTAMA (KIRI) --- --}}
                 <div class="lg:col-span-2">
 
-                    {{-- Header Artikel yang Sudah Dirapikan --}}
-                    <div class="mb-8">
-                        {{-- Pastikan kategori ada sebelum membuat link --}}
+                    {{-- Header Artikel --}}
+                    <div class="mb-6">
                         @if($article->category)
                             <a href="{{ route('category.show', $article->category) }}" class="inline-block bg-green-100 text-green-800 rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider hover:bg-green-200 transition">
                                 {{ $article->category->name }}
                             </a>
-                        @else
-                            {{-- Tampilan jika artikel tidak punya kategori --}}
-                            <span class="inline-block bg-gray-100 text-gray-800 rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider">
-                                Umum
-                            </span>
                         @endif
                         <h1 class="text-3xl lg:text-4xl font-bold text-gray-900 mt-3 mb-5 tracking-tight leading-tight">
                             {{ $article->title }}
                         </h1>
-                        <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-gray-500">
+                        <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-gray-500 border-t border-b py-4">
                             <div class="flex items-center gap-x-3">
                                 <img class="h-10 w-10 rounded-full object-cover" src="{{ $article->author->profile_photo_url }}" alt="{{ $article->author->name }}">
                                 <span class="font-semibold text-gray-800">{{ $article->author->name ?? 'Admin' }}</span>
@@ -56,19 +50,19 @@
                         </div>
                     </div>
 
-                    {{-- Gambar Utama --}}
+                    {{-- Gambar Utama Artikel --}}
                     @if ($article->thumbnail)
                         <img src="{{ asset('storage/' . $article->thumbnail) }}" alt="{{ $article->title }}" class="my-8 w-full rounded-2xl shadow-lg">
                     @endif
 
-                    {{-- Isi Konten --}}
+                    {{-- Isi Konten Artikel --}}
                     <article class="prose prose-lg max-w-none prose-green prose-img:rounded-xl">
-                        {!! $article->content !!}
+                        {{-- Diubah untuk keamanan dan menjaga format paragraf --}}
+                        {!! nl2br(e($article->content)) !!}
                     </article>
 
-                    {{-- Share & Artikel Terkait (DIKEMBALIKAN) --}}
+                    {{-- Tombol Share (Kode Anda, tidak diubah) --}}
                     <div class="mt-12 border-t pt-8">
-                        {{-- Tombol Share --}}
                         <div class="mb-12"> 
                             <h3 class="text-lg font-semibold text-gray-800 mb-4">Bagikan artikel ini:</h3>
                             <div class="flex items-center gap-x-5">
@@ -83,64 +77,104 @@
                                 <a href="https://www.instagram.com/akun-gizila-anda/" target="_blank" title="Lihat di Instagram"><i class="fab fa-instagram text-2xl text-gray-800 hover:text-pink-600 transition"></i></a>
                             </div>
                         </div>
+                    </div>
 
-                        {{-- Artikel Terkait --}}
-                        @if ($relatedArticles->count())
-                            <div>
-                                <h3 class="text-lg font-semibold text-gray-700 mb-4">Artikel Terkait</h3>
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                                    @foreach ($relatedArticles as $related)
-                                        <div class="bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden">
-                                            <a href="{{ route('blog.show', $related) }}">
-                                                <img src="{{ $related->thumbnail ? asset('storage/' . $related->thumbnail) : 'https://via.placeholder.com/400x250.png/EBF5EE/344054?text=Gizila' }}" alt="{{ $related->title }}" class="w-full h-40 object-cover">
-                                            </a>
-                                            <div class="p-4">
-                                                <span class="text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded">{{ $related->category->name ?? 'Umum' }}</span>
-                                                <a href="{{ route('blog.show', $related) }}" class="block mt-2 font-semibold text-gray-800 line-clamp-2 hover:text-green-700">{{ $related->title }}</a>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                        @endif
+        {{-- Ganti blok "Artikel Terkait" Anda dengan kode di bawah ini --}}
+@if ($relatedArticles->count())
+<div>
+    <div class="mt-12 border-t pt-8">
+        <h3 class="text-lg font-semibold text-gray-700 mb-4">Artikel terkait:</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            @foreach ($relatedArticles as $related)
+                {{-- 1. Tambahkan `group` untuk mengaktifkan efek hover pada elemen turunan --}}
+                <div class="group bg-white rounded-xl shadow transition-all duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1">
+                    {{-- 2. Tambahkan `overflow-hidden` agar efek zoom gambar tidak keluar dari kotak --}}
+                    <div class="overflow-hidden rounded-t-xl">
+                        <a href="{{ route('blog.show', $related->slug) }}">
+                            {{-- 3. Tambahkan class transisi & `group-hover:scale-110` untuk efek zoom --}}
+                            <img src="{{ $related->thumbnail ? asset('storage/' . $related->thumbnail) : 'https://via.placeholder.com/400x250.png/EBF5EE/344054?text=Gizila' }}"
+                                 alt="{{ $related->title }}"
+                                 class="w-full h-40 object-cover transition-transform duration-500 group-hover:scale-110">
+                        </a>
+                    </div>
+                    <div class="p-4">
+                        {{-- 4. Ubah `span` kategori menjadi `a` (link) --}}
+                        <a href="{{ route('category.show', $related->category->slug ?? 'umum') }}" class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full font-semibold hover:bg-green-200 transition-colors">
+                            {{ $related->category->name ?? 'Umum' }}
+                        </a>
+                        <a href="{{ route('blog.show', $related->slug) }}"
+                           class="block mt-2 font-semibold text-gray-800 line-clamp-2 group-hover:text-green-700 transition-colors">
+                            {{ $related->title }}
+                        </a>
                     </div>
                 </div>
+            @endforeach
+        </div>
+    </div>
+</div>
+@endif
+                    
+                    {{-- KOLOM KOMENTAR (BARU) --}}
+                    <div id="komentar" class="mt-16">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-6 border-l-4 border-green-600 pl-4">Diskusi & Tanggapan</h3>
+                        <div class="bg-gray-50 p-8 rounded-lg text-center text-gray-500 border">
+                            <p>Fitur komentar akan segera hadir di sini!</p>
+                        </div>
+                    </div>
 
-                {{-- KOLOM SIDEBAR (KANAN) --}}
+                </div>
+
+                {{-- --- KOLOM SIDEBAR (KANAN) --- --}}
                 <aside class="lg:col-span-1 space-y-10 lg:sticky lg:top-24 self-start">
-                    {{-- Widget Artikel Populer --}}
-                    <div class="rounded-2xl bg-gray-50 p-6">
-                        <h3 class="text-xl font-bold text-gray-900 mb-6">Artikel Populer</h3>
-                        <ul class="space-y-6">
-                            @forelse($popularArticles as $popular)
+                    
+                    {{-- Widget Pencarian --}}
+                    <div class="rounded-2xl bg-white p-6 shadow-sm border">
+                        <form action="{{ route('blog.index') }}" method="GET">
+                            <label for="search-sidebar" class="font-semibold text-gray-700 mb-2 block">Cari Artikel</label>
+                            <div class="relative">
+                                <input type="text" id="search-sidebar" name="search" placeholder="Ketik di sini..." class="w-full rounded-md border-gray-300 pr-10 focus:ring-green-500 focus:border-green-500">
+                                <button type="submit" class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-400 hover:text-green-700">
+                                    <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" /></svg>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    {{-- Widget Artikel Terbaru --}}
+                    <div class="rounded-2xl bg-white p-6 shadow-sm border">
+                        <h3 class="text-xl font-bold text-gray-900 mb-6">Artikel Terbaru</h3>
+                        <ul class="space-y-5">
+                            @forelse($latestArticles as $latest)
                                 <li class="flex items-start gap-x-4">
-                                    <a href="{{ route('blog.show', $popular) }}" class="w-20 h-20 flex-shrink-0">
-                                        <img src="{{ $popular->thumbnail ? asset('storage/' . $popular->thumbnail) : 'https://via.placeholder.com/150x150.png/EBF5EE/344054?text=G' }}" alt="{{ $popular->title }}" class="w-20 h-20 rounded-lg object-cover">
+                                    <a href="{{ route('blog.show', $latest) }}" class="w-20 h-20 flex-shrink-0">
+                                        <img src="{{ $latest->thumbnail ? asset('storage/' . $latest->thumbnail) : 'https://via.placeholder.com/150' }}" alt="{{ $latest->title }}" class="w-20 h-20 rounded-lg object-cover">
                                     </a>
                                     <div>
                                         <h4 class="text-base font-semibold leading-tight text-gray-800 hover:text-green-700">
-                                            <a href="{{ route('blog.show', $popular) }}">{{ $popular->title }}</a>
+                                            <a href="{{ route('blog.show', $latest) }}">{{ $latest->title }}</a>
                                         </h4>
-                                        <p class="text-xs text-gray-500 mt-1">{{ $popular->created_at->format('d M Y') }}</p>
+                                        <p class="text-xs text-gray-500 mt-1">{{ $latest->created_at->format('d M Y') }}</p>
                                     </div>
                                 </li>
                             @empty
-                                <li class="text-sm text-gray-500">Belum ada artikel populer.</li>
+                                <li class="text-sm text-gray-500">Belum ada artikel lain.</li>
                             @endforelse
                         </ul>
                     </div>
                     
-                    {{-- Widget Kategori --}}
-                    <div class="rounded-2xl bg-gray-50 p-6">
+                    {{-- Widget Kategori (Kode Anda, dipindahkan ke sini) --}}
+                    <div class="rounded-2xl bg-white p-6 shadow-sm border">
                         <h3 class="text-xl font-bold text-gray-900 mb-6">Kategori</h3>
                         <ul class="space-y-3">
                             @forelse($categories as $category)
-                                <li>
-                                    <a href="{{ route('category.show', $category) }}" class="flex justify-between items-center text-gray-600 hover:text-green-700 font-medium">
-                                        <span>{{ $category->name }}</span>
-                                        <span class="text-xs bg-gray-200 text-gray-600 rounded-full px-2 py-0.5">{{ $category->articles_count }}</span>
-                                    </a>
-                                </li>
+                                @if($category->articles_count > 0)
+                                    <li>
+                                        <a href="{{ route('category.show', $category) }}" class="flex justify-between items-center text-gray-600 hover:text-green-700 font-medium">
+                                            <span>{{ $category->name }}</span>
+                                            <span class="text-xs bg-gray-200 text-gray-600 rounded-full px-2 py-0.5">{{ $category->articles_count }}</span>
+                                        </a>
+                                    </li>
+                                @endif
                             @empty
                                 <li class="text-sm text-gray-500">Belum ada kategori.</li>
                             @endforelse
@@ -148,14 +182,8 @@
                     </div>
                 </aside>
             </div>
-
-            {{-- Tombol Kembali --}}
-            <div class="mt-16 text-center">
-                <a href="{{ route('blog.index') }}" class="inline-block text-green-600 hover:text-green-800 text-sm font-medium">
-                    ← Kembali ke daftar artikel
-                </a>
-            </div>
+            
         </div>
     </div>
+    <x-footer />
 </x-layout>
-<x-footer />

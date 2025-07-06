@@ -17,6 +17,12 @@
         "vite": "^6.0.11"
     },
     "dependencies": {
-        "@coreui/coreui": "^5.4.0"
+        "@alpinejs/persist": "^3.14.9",
+        "@coreui/coreui": "^5.4.0",
+        "alpinejs": "^3.14.9",
+        "aos": "^2.3.4",
+        "flickity": "^3.0.0",
+        "jquery": "^3.7.1",
+        "select2": "^4.1.0-rc.0"
     }
 }

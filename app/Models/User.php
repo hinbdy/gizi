@@ -50,12 +50,14 @@ class User extends Authenticatable
     
     public function getProfilePhotoUrlAttribute()
     {
-        // Cek apakah ada path foto di kolom 'photo'
-        if ($this->photo && file_exists(public_path('storage/' . $this->photo))) {
+        // DIUBAH: Hapus `file_exists()` yang lambat.
+        // Logika baru: Jika kolom 'photo' berisi teks (tidak null/kosong),
+        // langsung tampilkan gambarnya. Ini jauh lebih cepat.
+        if ($this->photo) {
              return asset('storage/' . $this->photo);
         }
 
-        // Jika tidak ada foto, buat avatar dari inisial nama
+        // Jika kolom 'photo' kosong, gunakan avatar default.
         return 'https://ui-avatars.com/api/?name=' . urlencode($this->name) . '&background=d6f6e4&color=052e16&bold=true';
     }
 }

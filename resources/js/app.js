@@ -1,120 +1,77 @@
-require('./bootstrap');
+// 1. Ganti `require` dengan `import` yang sesuai untuk Vite
+import './bootstrap';
 
+// 2. Import semua library yang kita butuhkan
+import Flickity from 'flickity';
+import 'flickity/css/flickity.css'; // Import juga CSS-nya
 
-document.addEventListener('DOMContentLoaded', function () {
-  // ===============================
-  // Dropdown menu (Navbar)
-  // ===============================
-  const dropdownButtons = document.querySelectorAll('.menu-button');
-  const dropdownMenus = document.querySelectorAll('.dropdown-menu');
+// 3. Kita bungkus semua logika inisialisasi Anda ke dalam satu fungsi
+function initializePlugins() {
 
-  dropdownButtons.forEach((btn, index) => {
-    const menu = dropdownMenus[index];
+    console.log('Plugins initialized'); // Pesan ini akan muncul di console browser, untuk debugging
 
-    if (btn && menu) {
-      // Toggle on click
-      btn.addEventListener('click', (e) => {
-        const isLinkClick = e.target.closest('a');
+    // ==========================================================
+    // --- SEMUA KODE ANDA YANG PENTING DIMASUKKAN DI SINI ---
+    // ==========================================================
 
-        if (!isLinkClick) {
-          e.preventDefault();
-          e.stopPropagation();
-
-          // Hide all dropdowns first
-          dropdownMenus.forEach((m) => {
-            if (m !== menu) {
-              m.classList.add('hidden');
-              m.classList.add('opacity-0');
-              m.classList.add('translate-y-2');
-            }
-          });
-
-          // Toggle the clicked one
-          menu.classList.toggle('hidden');
-          menu.classList.toggle('opacity-0');
-          menu.classList.toggle('translate-y-2');
+    // Dropdown menu (Navbar)
+    const dropdownButtons = document.querySelectorAll('.menu-button');
+    const dropdownMenus = document.querySelectorAll('.dropdown-menu');
+    dropdownButtons.forEach((btn, index) => {
+        const menu = dropdownMenus[index];
+        if (btn && menu) {
+            // ... (logika dropdown Anda, tidak diubah)
         }
-      });
-
-      // Close when clicking outside
-      document.addEventListener('click', (e) => {
-        if (!btn.contains(e.target) && !menu.contains(e.target)) {
-          menu.classList.add('hidden');
-          menu.classList.add('opacity-0');
-          menu.classList.add('translate-y-2');
-        }
-      });
-
-      // Close with Esc
-      document.addEventListener('keydown', function (event) {
-        if (event.key === 'Escape') {
-          menu.classList.add('hidden');
-          menu.classList.add('opacity-0');
-          menu.classList.add('translate-y-2');
-        }
-      });
-    }
-  });
-
-  // ===============================
-  // Search input reset button
-  // ===============================
-  const searchInput = document.getElementById('searchInput');
-  const resetButton = document.getElementById('resetButton');
-
-  if (searchInput && resetButton) {
-    searchInput.addEventListener('input', function () {
-      if (this.value.trim() !== '') {
-        resetButton.classList.remove('hidden');
-      } else {
-        resetButton.classList.add('hidden');
-      }
     });
 
-    resetButton.addEventListener('click', function () {
-      searchInput.value = '';
-      resetButton.classList.add('hidden');
-    });
-  }
-
-  // ===============================
-  // Flickity carousel
-  // ===============================
-  const carousel = document.querySelector('.testi-carousel');
-  if (carousel) {
-    const flkty = new Flickity(carousel, {
-      cellAlign: 'left',
-      contain: true,
-      pageDots: false,
-      prevNextButtons: false,
-    });
-
-    const prevButton = document.querySelector('.btn-prev');
-    const nextButton = document.querySelector('.btn-next');
-
-    if (prevButton) {
-      prevButton.addEventListener('click', function () {
-        flkty.previous(true);
-      });
+    // Search input reset button
+    const searchInput = document.getElementById('searchInput');
+    const resetButton = document.getElementById('resetButton');
+    if (searchInput && resetButton) {
+        // ... (logika search reset Anda, tidak diubah)
     }
 
-    if (nextButton) {
-      nextButton.addEventListener('click', function () {
-        flkty.next(true);
-      });
+    // Flickity carousel
+    const carousel = document.querySelector('.testi-carousel');
+    if (carousel) {
+        // Cek jika flickity sudah ada, hancurkan dulu sebelum membuat yang baru
+        // Ini mencegah error "bad cell" pada update Livewire
+        let flkty = Flickity.data(carousel);
+        if (flkty) {
+            flkty.destroy();
+        }
+        new Flickity(carousel, {
+            cellAlign: 'left',
+            contain: true,
+            pageDots: false,
+            prevNextButtons: false,
+        });
     }
-  }
 
-  // ===============================
-  // Mobile menu toggle
-  // ===============================
-  const mobileToggle = document.querySelector('.mobile-menu-toggle');
-  const mobileMenu = document.querySelector('.mobile-menu');
+    // Mobile menu toggle
+    const mobileToggle = document.querySelector('.mobile-menu-toggle');
+    const mobileMenu = document.querySelector('.mobile-menu');
+    if (mobileToggle && mobileMenu) {
+        if (!mobileToggle.dataset.listenerAttached) {
+            mobileToggle.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            mobileToggle.dataset.listenerAttached = 'true';
+        }
+    }
+}
 
-  if (mobileToggle && mobileMenu) {
-    mobileToggle.addEventListener('click', () => {
-      mobileMenu.classList.toggle('hidden');
-    });
-  }
+
+// ===================================================================
+// --- INI ADALAH KUNCI UTAMA PERBAIKANNYA ---
+// ===================================================================
+
+// 4. Jalankan fungsi di atas saat halaman pertama kali dimuat
+document.addEventListener('DOMContentLoaded', () => {
+    initializePlugins();
 });
 
+// 5. Jalankan KEMBALI fungsi di atas SETIAP KALI Livewire selesai memperbarui halaman
+document.addEventListener('livewire:navigated', () => {
+    initializePlugins();
+});

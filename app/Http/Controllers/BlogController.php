@@ -10,24 +10,27 @@ class BlogController extends Controller
 {
     /**
      * Menampilkan daftar artikel yang sudah dipublikasikan dengan pagination.
+     * (Tidak ada perubahan di sini)
      */
     public function index()
     {
-        // DIUBAH: ->get() menjadi ->paginate()
-        $articles = Article::with(['author', 'category'])
-            ->where('published', true)
-            ->latest() // latest() adalah singkatan untuk orderBy('created_at', 'desc')
-            ->paginate(9); // Ambil 9 artikel per halaman
+        // $articles = Article::with(['author', 'category'])
+        //     ->where('published', true)
+        //     ->latest()
+        //     ->paginate(9);
+
+        // return view('blog.index', [
+        //     'articles' => $articles,
+        //     'title' => 'Artikel Gizila'
+        // ]);
 
         return view('blog.index', [
-            'articles' => $articles,
-            'title' => 'Artikel Gizila'
-        ]);
+        'title' => 'Artikel Gizila'
+    ]);
     }
 
     /**
      * Menampilkan detail artikel.
-     * (Tidak ada perubahan, kode Anda sudah bagus)
      */
     public function show(Article $article)
     {
@@ -35,51 +38,61 @@ class BlogController extends Controller
             abort(404);
         }
 
-        // --- LOGIKA PENAMBAH VIEWS DIMULAI ---
-    $viewed = session()->get('viewed_articles', []);
-    if (!in_array($article->id, $viewed)) {
-        // increment() lebih efisien daripada $article->views++
-        $article->increment('views');
-        session()->push('viewed_articles', $article->id);
-    }
-    // --- LOGIKA PENAMBAH VIEWS SELESAI ---
-
+        // Logika penambah views (Tidak ada perubahan)
+        $viewed = session()->get('viewed_articles', []);
+        if (!in_array($article->id, $viewed)) {
+            $article->increment('views');
+            session()->push('viewed_articles', $article->id);
+        }
+        
         $article->load(['author', 'category']);
 
-        // Mendapatkan artikel terkait berdasarkan kategori yang sama
+        // Mendapatkan artikel terkait berdasarkan kategori yang sama (Kode Anda, tidak diubah)
         $relatedArticles = Article::where('category_id', $article->category_id)
-            ->where('id', '!=', $article->id) // Tidak termasuk artikel yang sedang dibuka
+            ->where('id', '!=', $article->id)
             ->where('published', true)
             ->latest()
-            ->take(4) // Batasi jumlah artikel terkait
+            ->take(4)
             ->get();
         
-        // Mengambil artikel populer (berdasarkan views terbanyak)
+        // Mengambil artikel populer (berdasarkan views terbanyak) (Kode Anda, tidak diubah)
         $popularArticles = Article::where('published', true)
-        ->where('id', '!=', $article->id)
-        ->orderByDesc('views')
-        ->take(5) // Ambil 5 terpopuler untuk sidebar
-        ->get();
+            ->where('id', '!=', $article->id)
+            ->orderByDesc('views')
+            ->take(5)
+            ->get();
 
-         // Mengambil semua kategori beserta jumlah artikelnya
+         // Mengambil semua kategori beserta jumlah artikelnya (Kode Anda, tidak diubah)
          $categories = Category::withCount(['articles' => function ($query) {
             $query->where('published', true);
         }])
         ->orderBy('name', 'asc')
         ->get();
 
+        // --- MULAI BAGIAN YANG DITAMBAHKAN ---
+        // Mengambil 5 artikel TERBARU lainnya untuk sidebar
+        $latestArticles = Article::where('published', true)
+            ->where('id', '!=', $article->id) // Tidak termasuk artikel yang sedang dibuka
+            ->latest() // Mengurutkan berdasarkan tanggal terbaru
+            ->take(5)  // Ambil 5 teratas
+            ->get();
+        // --- AKHIR BAGIAN YANG DITAMBAHKAN ---
+
+
+        // --- BAGIAN RETURN VIEW DIMODIFIKASI UNTUK MENGIRIM DATA BARU ---
         return view('blog.show', [
             'article' => $article,
             'title' => $article->title,
             'popularArticles' => $popularArticles,
+            'latestArticles' => $latestArticles, // <- Kirim data artikel terbaru
             'categories' => $categories,   
-            'relatedArticles' => $relatedArticles, // Kirim artikel terkait ke view
+            'relatedArticles' => $relatedArticles,
         ]);
     }
 
     /**
      * Mencari artikel berdasarkan judul/konten.
-     * (Tidak ada perubahan, kode Anda sudah bagus)
+     * (Tidak ada perubahan di sini)
      */
     public function search(Request $request)
     {

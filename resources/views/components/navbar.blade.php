@@ -8,14 +8,13 @@
 >
   <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
 
-    {{-- Logo dan Search --}}
+    {{-- Logo dan Search (Tidak Ada Perubahan) --}}
     <div class="flex items-center gap-4 w-full max-w-lg">
       <a href="{{ route('home') }}" class="flex items-center gap-2 shrink-0">
         <img src="{{ asset('assets/images/logo-gizila.png') }}" alt="Gizila Logo" class="h-12 w-auto object-contain dark">
       </a>
 
-      {{-- Search Bar --}}
-      <form method="GET" action="{{ route('articles.search') }}" class="hidden md:block w-full">
+      <form method="GET" action="{{ route('blog.index') }}" class="hidden md:block w-full">
         <div 
         :class="scrolled
         ? 'flex items-center bg-white border border-gizila-dark rounded-full px-4 py-1 shadow-sm'
@@ -23,9 +22,10 @@
           <img src="{{ asset('assets/images/icons/search-normal.svg') }}" class="w-4 h-4 mr-2" alt="Search">
           <input
             type="text"
-            name="q"
+            name="search"
             id="searchInput"
             placeholder="Cari artikel..."
+            value="{{ request('search') }}"
             class="flex-1 bg-transparent focus:outline-none text-sm text-gray-700"
             autocomplete="off"
           />
@@ -33,7 +33,7 @@
       </form>
     </div>
 
-    {{-- Hamburger (mobile) --}}
+    {{-- Hamburger (mobile) (Tidak Ada Perubahan) --}}
     <button 
       class="lg:hidden text-2xl focus:outline-none mobile-menu-toggle transition"
       :class="scrolled ? 'text-gizila-dark' : 'text-black'">
@@ -43,7 +43,7 @@
     {{-- Menu Utama --}}
     <div class="hidden lg:flex gap-6 items-center mobile-menu transition-all duration-300 ease-in-out">
       <ul class="flex flex-col lg:flex-row gap-4 lg:gap-8 items-start lg:items-center text-base font-medium">
-        {{-- HOME --}}
+        {{-- HOME (Tidak Ada Perubahan) --}}
         <li>
           <a href="{{ route('home') }}" 
              class="border-b-2 transition"
@@ -54,7 +54,7 @@
           </a>
         </li>
 
-        {{-- FITUR --}}
+        {{-- FITUR (Tidak Ada Perubahan) --}}
         <li class="relative group">
           <div class="flex items-center gap-1 cursor-pointer border-b-2 transition"
                :class="scrolled 
@@ -65,8 +65,6 @@
               <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
             </svg>
           </div>
-
-          {{-- Dropdown --}}
           <div class="dropdown-menu absolute left-0 top-[calc(100%+24px)] mt-1 min-w-[320px] max-w-[320px] flex flex-col gap-0 px-3 py-2 rounded-xl bg-gizila-radial shadow-lg border border-gray-200 z-50 opacity-0 invisible translate-y-2 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-300 ease-out">
             @foreach ([ 
               ['icon' => 'imt.png', 'title' => 'Massa Tubuh', 'desc' => 'Hitung Indeks massa tubuh anda!', 'route' => route('bmi.calculator')], 
@@ -84,18 +82,20 @@
           </div>
         </li>
 
-        {{-- BLOG --}}
+        {{-- === MULAI PERUBAHAN DI SINI === --}}
         <li>
           <a href="{{ route('blog.index') }}" 
              class="border-b-2 transition"
+             {{-- Kita tambahkan `|| request()->routeIs('category.show')` di kedua kondisi --}}
              :class="scrolled 
-               ? '{{ request()->routeIs('blog.index') || request()->routeIs('blog.show') ? 'text-gizila-dark border-gizila-dark' : 'text-gizila-dark border-transparent hover:border-gizila-dark' }}'
-               : '{{ request()->routeIs('blog.index') || request()->routeIs('blog.show') ? 'text-black border-black' : 'text-black border-transparent hover:border-black' }}'">
+               ? '{{ request()->routeIs('blog.index') || request()->routeIs('blog.show') || request()->routeIs('category.show') ? 'text-gizila-dark border-gizila-dark' : 'text-gizila-dark border-transparent hover:border-gizila-dark' }}'
+               : '{{ request()->routeIs('blog.index') || request()->routeIs('blog.show') || request()->routeIs('category.show') ? 'text-black border-black' : 'text-black border-transparent hover:border-black' }}'">
             Blog
           </a>
         </li>
+        {{-- === AKHIR PERUBAHAN === --}}
 
-        {{-- ABOUT --}}
+        {{-- ABOUT (Tidak Ada Perubahan) --}}
         <li>
           <a href="{{ route('about.index') }}" 
              class="border-b-2 transition"
@@ -107,7 +107,7 @@
         </li>
       </ul>
 
-      {{-- LOGIN --}}
+      {{-- LOGIN (Tidak Ada Perubahan) --}}
       <div class="flex gap-4 items-center mt-4 lg:mt-0">
         <a href="{{ route('login') }}" 
            class="px-4 py-2 rounded-lg border transition"

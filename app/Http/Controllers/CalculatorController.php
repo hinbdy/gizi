@@ -141,80 +141,115 @@ class CalculatorController extends Controller
         }
 
         
-    public function calculateNutrition(Request $request)
-{
-    // pastikan BMI sudah dihitung
-    if (!session()->has('bmr')) {
-        return redirect('/kalkulator-massa-tubuh')->with('warning', 'Silakan hitung BMI terlebih dahulu.');
+ // #### FUNGSI BARU UNTUK MEMBUAT REKOMENDASI MENU ####
+    private function _generateMenuRecommendations($bmr)
+    {
+        $mealPlan = [
+            'Sarapan' => ['percentage' => 0.25, 'target' => $bmr * 0.25, 'variability' => 50],
+            'Makan Siang' => ['percentage' => 0.35, 'target' => $bmr * 0.35, 'variability' => 75],
+            'Makan Malam' => ['percentage' => 0.30, 'target' => $bmr * 0.30, 'variability' => 75],
+            'Camilan' => ['percentage' => 0.10, 'target' => $bmr * 0.10, 'variability' => 50],
+        ];
+
+        $recommendations = [];
+
+        foreach ($mealPlan as $mealName => $plan) {
+            $minCalories = $plan['target'] - $plan['variability'];
+            $maxCalories = $plan['target'] + $plan['variability'];
+            
+            // Ambil 3 menu acak yang kalorinya masuk dalam rentang
+            $foods = Food::whereBetween('calories', [$minCalories, $maxCalories])
+                         ->inRandomOrder()
+                         ->take(3)
+                         ->get();
+
+            // Jika tidak ada makanan dalam rentang, ambil yang terdekat
+            if ($foods->isEmpty()) {
+                $foods = Food::select('*', DB::raw('ABS(calories - ' . $plan['target'] . ') as diff'))
+                             ->orderBy('diff')
+                             ->take(3)
+                             ->get();
+            }
+            
+            $recommendations[$mealName] = $foods;
+        }
+
+        return $recommendations;
     }
 
-    // ambil data dari session BMI
-    $usia = session('usia');
-    $berat = session('berat');
-    $tinggi = session('tinggi');
-    $jenisKelamin = session('jenisKelamin');
-    $aktivitas = session('aktivitas');
-    $kategoriIMT = session('kategoriIMT');
-    $kategoriBMI = session('kategoriBB');
 
-    // Ambil data makanan dari form
-    $selectedFoods = $request->input('foods', []);
+    public function calculateNutrition(Request $request)
+    {
+        // Pastikan BMR ada di session
+        if (!session()->has('bmr')) {
+            return redirect('/kalkulator-massa-tubuh')->with('warning', 'Silakan hitung BMI Anda terlebih dahulu.');
+        }
 
-    // Inisialisasi total kalori makanan
-    $totalKaloriMakanan = 0;
+        $bmr = session('bmr');
 
-    foreach ($selectedFoods as $foodId => $jumlahGram) {
-        if ($jumlahGram > 0) {
-            $food = Food::find($foodId);
-            if ($food) {
-                // Hitung kalori berdasarkan jumlah gram
-                $kaloriPerGram = $food->kalori / 100;
-                $kaloriMakanan = $jumlahGram * $kaloriPerGram;
-                $totalKaloriMakanan += $kaloriMakanan;
+        // Hitung total nutrisi dari input pengguna
+        $totalIntake = [
+            'calories' => 0,
+            'protein' => 0,
+            'fat' => 0,
+            'carbs' => 0
+        ];
+
+        if ($request->has('foods')) {
+            foreach ($request->input('foods') as $sesi => $menus) {
+                foreach ($menus as $index => $foodId) {
+                    if (!empty($foodId) && !empty($request->input("weights.$sesi.$index"))) {
+                        $weight = (float)$request->input("weights.$sesi.$index");
+                        $food = Food::find($foodId);
+                        if ($food && $weight > 0) {
+                            $factor = $weight / 100; // Kalori di DB adalah per 100g
+                            $totalIntake['calories'] += $food->calories * $factor;
+                            // Asumsi makronutrien (bisa diperbaiki jika ada data di DB)
+                            $totalIntake['carbs'] += ($food->calories * 0.60 / 4) * $factor;
+                            $totalIntake['protein'] += ($food->calories * 0.15 / 4) * $factor;
+                            $totalIntake['fat'] += ($food->calories * 0.25 / 9) * $factor;
+                        }
+                    }
+                }
             }
         }
+        
+        // Hitung kebutuhan harian berdasarkan BMR
+        $recommendations = [
+            'calories' => $bmr,
+            'protein' => round(($bmr * 0.15) / 4), // 15% dari total kalori
+            'fat' => round(($bmr * 0.25) / 9),     // 25% dari total kalori
+            'carbs' => round(($bmr * 0.60) / 4),   // 60% dari total kalori
+        ];
+        
+        // Buat rekomendasi menu
+        $menuRecommendations = $this->_generateMenuRecommendations($bmr);
+
+        // Data untuk FAQ
+        $faq = [
+            [
+                'question' => 'Berapa kalori yang dibutuhkan tubuh?',
+                'answer' => 'Kebutuhan kalori setiap orang berbeda, tergantung pada usia, jenis kelamin, berat badan, tinggi badan, dan tingkat aktivitas fisik. Rata-rata, pria dewasa membutuhkan sekitar 2.500 kkal per hari, sementara wanita dewasa membutuhkan sekitar 2.000 kkal. Kalkulator ini menggunakan rumus Harris-Benedict yang disesuaikan dengan tingkat aktivitas Anda untuk memberikan estimasi yang lebih personal.'
+            ],
+            [
+                'question' => 'Apa itu prinsip gizi seimbang?',
+                'answer' => 'Prinsip gizi seimbang adalah mengonsumsi beragam jenis makanan dalam proporsi yang tepat untuk memenuhi kebutuhan nutrisi tubuh. Ini mencakup karbohidrat sebagai sumber energi utama, protein untuk membangun dan memperbaiki jaringan tubuh, lemak untuk fungsi hormon dan penyerapan vitamin, serta vitamin dan mineral untuk menjaga fungsi tubuh tetap optimal. Penting juga untuk memastikan asupan cairan yang cukup, terutama air putih.'
+            ],
+            [
+                'question' => 'Kelompok makanan apa saja yang penting?',
+                'answer' => 'Untuk mencapai gizi seimbang, konsumsilah makanan dari berbagai kelompok berikut: <ul><li class="ml-4 list-disc"><b>Sayuran:</b> Kaya serat, vitamin, dan mineral.</li><li class="ml-4 list-disc"><b>Buah-buahan:</b> Sumber vitamin, antioksidan, dan serat alami.</li><li class="ml-4 list-disc"><b>Sumber Protein:</b> Ikan, telur, daging tanpa lemak, dan produk susu rendah lemak untuk pertumbuhan dan perbaikan sel.</li><li class="ml-4 list-disc"><b>Kacang-kacangan & Biji-bijian:</b> Sumber protein nabati, lemak sehat, dan serat.</li><li class="ml-4 list-disc"><b>Karbohidrat Kompleks:</b> Seperti nasi merah, roti gandum, dan umbi-umbian sebagai sumber energi yang tahan lama.</li></ul>'
+            ]
+        ];
+
+        return view('calculator.nutrition', [
+            'title' => 'Hasil Analisis & Rekomendasi Gizi',
+            'bmr' => $bmr,
+            'intake' => $totalIntake,
+            'recommendations' => $recommendations,
+            'menuRecommendations' => $menuRecommendations,
+            'faq' => $faq,
+            'foods' => Food::orderBy('name')->get()
+        ]);
     }
 
-    // Jika user tidak input makanan, maka fallback pakai BMR session
-    $kalori = $totalKaloriMakanan > 0 ? round($totalKaloriMakanan) : session('bmr');
-
-    // Hitung makronutrien dari total kalori
-    $karbohidratGram = round(($kalori * 0.50) / 4);
-    $proteinGram = round(($kalori * 0.20) / 4);
-    $lemakGram = round(($kalori * 0.30) / 9);
-
-    // Deskripsi aktivitas
-    $kategoriAktivitas = match ($aktivitas) {
-        'sangat-ringan' => 'Minim aktivitas (misalnya duduk sepanjang hari)',
-        'ringan' => 'Aktivitas ringan (misalnya guru, kasir, jalan ringan)',
-        'sedang' => 'Aktivitas sedang (misalnya pekerja lapangan ringan, berdiri lama)',
-        'berat' => 'Aktivitas berat (misalnya pekerja konstruksi, atlet)',
-        default => 'Tidak diketahui',
-    };
-
-    // Ambil data foods (untuk tetap ditampilkan di view)
-    // $foods = Food::orderBy('name', 'asc')->get();
-        $foods = Food::select('id', 'name', 'kalori', 'image_url')
-                 ->orderBy('name')
-                 ->get()
-                 ->unique('name')
-                 ->values();
-
-    // Kirim semua ke view
-    return view('calculator.nutrition', [
-        'title' => 'Kebutuhan Gizi Harian Anda',
-        'kalori' => $kalori,
-        'karbohidratGram' => $karbohidratGram,
-        'proteinGram' => $proteinGram,
-        'lemakGram' => $lemakGram,
-        'kategoriAktivitas' => $kategoriAktivitas,
-        'kategoriIMT' => $kategoriIMT,
-        'berat' => $berat,
-        'tinggi' => $tinggi,
-        'usia' => $usia,
-        'jenisKelamin' => $jenisKelamin,
-        'aktivitas' => $aktivitas,
-        'foods' => $foods
-    ]);
-}
 }

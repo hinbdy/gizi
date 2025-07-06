@@ -118,7 +118,7 @@
         </div>
         <div class="text-center mt-6">
           <button type="submit"
-            class="px-6 py-3 rounded-lg border font-semibold border-gizila-dark text-gizila-dark hover:bg-[#027527] hover:text-white transition">
+            class="px-6 py-3 bg-green-700 text-white rounded-full font-semibold hover:bg-green-800 transition">
             Hitung IMT Kamu
           </button>
         </div>
@@ -195,7 +195,7 @@
         Lanjut Hitung Gizi Harian
       </a>
       <button onclick="closePopup()"
-              class="px-5 py-3 text-sm font-semibold rounded-lg border border-gizila-dark hover:bg-[#027527] hover:text-white underline transition">
+              class="px-5 py-3  font-semibold rounded-lg border border-gizila-dark text-green-700 hover:bg-[#027527] hover:text-white underline transition">
         Batal
       </button>
     </div>

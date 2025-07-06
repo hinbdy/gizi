@@ -45,6 +45,7 @@ module.exports = {
         
       },
       animation: {
+         'draw-line': 'draw-line 4s ease-in-out infinite',
         fadeIn: 'fadeIn 0.3s ease-out',
         fadeOut: 'fadeOut 0.3s ease-in',
         slideToR: 'slideToR 0.5s ease-in-out',
@@ -52,6 +53,12 @@ module.exports = {
         slideToB: 'slideToB 0.5s ease-in-out',
       },
       keyframes: {
+         'draw-line': {
+            '0%': { transform: 'scaleX(0)' },
+            '40%': { transform: 'scaleX(1)' },
+            '60%': { transform: 'scaleX(1)' },
+            '100%': { transform: 'scaleX(0)' },
+          },
         fadeIn: {
           '0%': { opacity: '0', transform: 'scale(0.95)' },
           '100%': { opacity: '1', transform: 'scale(1)' },

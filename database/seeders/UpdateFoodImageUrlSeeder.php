@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Food;
+use Illuminate\Support\Str;
 
 class UpdateFoodImageUrlSeeder extends Seeder
 {
@@ -12,11 +13,12 @@ class UpdateFoodImageUrlSeeder extends Seeder
         $foods = Food::all();
 
         foreach ($foods as $food) {
-            // Contoh penamaan file berdasarkan nama makanan (lowercase & underscore)
-            $filename = strtolower(str_replace(' ', '_', $food->name)) . '.jpg';
+            // Membuat nama file dari nama makanan
+            $filename = Str::slug($food->name, '_') . '.png'; // Sesuaikan ekstensi jika perlu
 
-            // Simulasi URL gambar — sesuaikan jika kamu pakai local file atau storage
-            $food->image_url = 'https://example.com/images/' . $filename;
+            // ✅ PERBAIKAN: Simpan path relatif terhadap folder 'storage/app/public'
+            $food->image_url = 'foods/' . $filename;
+            
             $food->save();
         }
     }

@@ -17,9 +17,9 @@
                 </div>
                  {{-- Info Kontak --}}
                   <div class="relative -top-7 object-contain text-sm text-black">
-                      <p><i class="fas fa-map-marker-alt mr-2"></i>Jl. Raya Keadilan No. A-17, Pancoran Mas, Depok 16434.</p>
-                      <p><i class="far fa-envelope mr-2"></i><a href="mailto:ufhdynt@gmail.com">ufhdynt@gmail.com</a></p>
-                      <p><i class="fab fa-whatsapp mr-2"></i><a href="https://wa.me/6285776466269">+6285776466269</a></p>
+                      <p><i class="fas fa-map-marker-alt mr-2"></i><a href="https://maps.app.goo.gl/zD7xQfXTLpFtUfMU7" class="hover:text-gizila-dark">Jl. Raya Keadilan No. A-17, Pancoran Mas, Depok 16434</a></p>
+                      <p><i class="far fa-envelope mr-2"></i><a href="mailto:ufhdynt@gmail.com" class="hover:text-gizila-dark">ufhdynt@gmail.com</a></p>
+                      <p><i class="fab fa-whatsapp mr-2"></i><a href="https://wa.me/6285776466269" class="hover:text-gizila-dark">+6285776466269</a></p>
                   </div>
                 {{-- Ikon Sosial Media --}}
                     <div class="relative -top-10 object-contain flex gap-4 mt-4">
@@ -64,9 +64,9 @@
             <div>
                 <h3 class="font-bold text-sm uppercase mb-3">Tentang</h3>
                 <ul class="space-y-1 text-sm text-black">
-                    <li><a href="https://guntara.id/">Profil</a></li>
-                    <li><a href="https://www.instagram.com/gizila.id/">Instagram</a></li>
-                    <li><a href="/about">Lokasi</a></li>
+                    <li><a href="https://guntara.id/" class="hover:text-gizila-dark">Profil</a></li>
+                    <li><a href="https://www.instagram.com/gizila.id/" class="hover:text-gizila-dark">Instagram</a></li>
+                    <li><a href="/about" class="hover:text-gizila-dark">Lokasi</a></li>
                     {{-- <li><a href="/">Agenda</a></li> --}}
                 </ul>
             </div>
@@ -75,8 +75,8 @@
             <div>
                 <h3 class="font-bold text-sm uppercase mb-3">Lembaga</h3>
                 <ul class="space-y-1 text-sm text-black">
-                    <li><a href="https://guntara.id/">GUNTARA</a></li>
-                    <li><a href="/">GIZILA</a></li>
+                    <li><a href="https://guntara.id/" class="hover:text-gizila-dark">GUNTARA</a></li>
+                    <li><a href="/" class="hover:text-gizila-dark">GIZILA</a></li>
                 </ul>
             </div>
 
@@ -84,9 +84,9 @@
             <div>
                 <h3 class="font-bold text-sm uppercase mb-3">Fitur-Fitur GIZILA</h3>
                 <ul class="space-y-1 text-sm text-black">
-                    <li><a href="/kalkulator-massa-tubuh">Perhitungan Massa Tubuh</a></li>
-                    <li><a href="/kalkulator-gizi-harian">Perhitungan Gizi Harian</a></li>
-                    <li><a href="/blog">Artikel</a></li>
+                    <li><a href="/kalkulator-massa-tubuh" class="hover:text-gizila-dark">Perhitungan Massa Tubuh</a></li>
+                    <li><a href="/kalkulator-gizi-harian" class="hover:text-gizila-dark">Perhitungan Gizi Harian</a></li>
+                    <li><a href="/blog" class="hover:text-gizila-dark">Artikel</a></li>
                 </ul>
             </div>
         </div>

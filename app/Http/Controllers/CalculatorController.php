@@ -141,93 +141,62 @@ class CalculatorController extends Controller
         }
 
         
- // #### FUNGSI BARU UNTUK MEMBUAT REKOMENDASI MENU ####
-    private function _generateMenuRecommendations($bmr)
-    {
-        $mealPlan = [
-            'Sarapan' => ['percentage' => 0.25, 'target' => $bmr * 0.25, 'variability' => 50],
-            'Makan Siang' => ['percentage' => 0.35, 'target' => $bmr * 0.35, 'variability' => 75],
-            'Makan Malam' => ['percentage' => 0.30, 'target' => $bmr * 0.30, 'variability' => 75],
-            'Camilan' => ['percentage' => 0.10, 'target' => $bmr * 0.10, 'variability' => 50],
-        ];
 
-        $recommendations = [];
-
-        foreach ($mealPlan as $mealName => $plan) {
-            $minCalories = $plan['target'] - $plan['variability'];
-            $maxCalories = $plan['target'] + $plan['variability'];
-            
-            // Ambil 3 menu acak yang kalorinya masuk dalam rentang
-            $foods = Food::whereBetween('calories', [$minCalories, $maxCalories])
-                         ->inRandomOrder()
-                         ->take(3)
-                         ->get();
-
-            // Jika tidak ada makanan dalam rentang, ambil yang terdekat
-            if ($foods->isEmpty()) {
-                $foods = Food::select('*', DB::raw('ABS(calories - ' . $plan['target'] . ') as diff'))
-                             ->orderBy('diff')
-                             ->take(3)
-                             ->get();
-            }
-            
-            $recommendations[$mealName] = $foods;
-        }
-
-        return $recommendations;
-    }
 
 
     public function calculateNutrition(Request $request)
     {
-        // Pastikan BMR ada di session
+        // pastikan BMI sudah dihitung
         if (!session()->has('bmr')) {
-            return redirect('/kalkulator-massa-tubuh')->with('warning', 'Silakan hitung BMI Anda terlebih dahulu.');
+            return redirect('/kalkulator-massa-tubuh')->with('warning', 'Silakan hitung BMI terlebih dahulu.');
         }
+
+        // Aturan validasi yang ketat
+        $request->validate([
+            'meals' => 'required|array',
+            'meals.*.*.food_id' => 'required|exists:foods,id',
+            'meals.*.*.weight' => 'required|numeric|min:1',
+            'meals.*.*.image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+        ], [
+            // Pesan error kustom dalam Bahasa Indonesia
+            'meals.*.*.food_id.required' => 'Menu makanan wajib dipilih.',
+            'meals.*.*.weight.required' => 'Porsi (gram) wajib diisi.',
+            'meals.*.*.weight.numeric' => 'Porsi (gram) harus berupa angka.',
+            'meals.*.*.weight.min' => 'Porsi (gram) minimal adalah 1.',
+        ]);
 
         $bmr = session('bmr');
 
-        // Hitung total nutrisi dari input pengguna
-        $totalIntake = [
-            'calories' => 0,
-            'protein' => 0,
-            'fat' => 0,
-            'carbs' => 0
-        ];
+        $totalIntake = ['calories' => 0, 'protein' => 0, 'fat' => 0, 'carbs' => 0];
 
-        if ($request->has('foods')) {
-            foreach ($request->input('foods') as $sesi => $menus) {
-                foreach ($menus as $index => $foodId) {
-                    if (!empty($foodId) && !empty($request->input("weights.$sesi.$index"))) {
-                        $weight = (float)$request->input("weights.$sesi.$index");
-                        $food = Food::find($foodId);
-                        if ($food && $weight > 0) {
-                            $factor = $weight / 100; // Kalori di DB adalah per 100g
-                            $totalIntake['calories'] += $food->calories * $factor;
-                            // Asumsi makronutrien (bisa diperbaiki jika ada data di DB)
-                            $totalIntake['carbs'] += ($food->calories * 0.60 / 4) * $factor;
-                            $totalIntake['protein'] += ($food->calories * 0.15 / 4) * $factor;
-                            $totalIntake['fat'] += ($food->calories * 0.25 / 9) * $factor;
-                        }
+        foreach ($request->input('meals') as $sesi => $menus) {
+            foreach ($menus as $menu) {
+                if (!empty($menu['food_id']) && !empty($menu['weight'])) {
+                    $food = Food::find($menu['food_id']);
+                    $weight = (float)$menu['weight'];
+                    if ($food && $weight > 0) {
+                        $factor = $weight / 100.0;
+                        // ... di dalam foreach loop
+                        $totalIntake['calories'] += $food->calories * $factor;
+                        $totalIntake['carbs']    += $food->carbs * $factor;    // ✅ Mengambil data akurat dari database
+                        $totalIntake['protein']  += $food->protein * $factor;  // ✅ Mengambil data akurat dari database
+                        $totalIntake['fat']      += $food->fat * $factor;      // ✅ Mengambil data akurat dari database
                     }
                 }
             }
         }
         
-        // Hitung kebutuhan harian berdasarkan BMR
         $recommendations = [
             'calories' => $bmr,
-            'protein' => round(($bmr * 0.15) / 4), // 15% dari total kalori
-            'fat' => round(($bmr * 0.25) / 9),     // 25% dari total kalori
-            'carbs' => round(($bmr * 0.60) / 4),   // 60% dari total kalori
+            'protein' => round(($bmr * 0.15) / 4),
+            'fat' => round(($bmr * 0.25) / 9),
+            'carbs' => round(($bmr * 0.60) / 4),
         ];
         
-        // Buat rekomendasi menu
         $menuRecommendations = $this->_generateMenuRecommendations($bmr);
 
-        // Data untuk FAQ
         $faq = [
-            [
+             [
                 'question' => 'Berapa kalori yang dibutuhkan tubuh?',
                 'answer' => 'Kebutuhan kalori setiap orang berbeda, tergantung pada usia, jenis kelamin, berat badan, tinggi badan, dan tingkat aktivitas fisik. Rata-rata, pria dewasa membutuhkan sekitar 2.500 kkal per hari, sementara wanita dewasa membutuhkan sekitar 2.000 kkal. Kalkulator ini menggunakan rumus Harris-Benedict yang disesuaikan dengan tingkat aktivitas Anda untuk memberikan estimasi yang lebih personal.'
             ],
@@ -241,15 +210,43 @@ class CalculatorController extends Controller
             ]
         ];
 
-        return view('calculator.nutrition', [
-            'title' => 'Hasil Analisis & Rekomendasi Gizi',
-            'bmr' => $bmr,
+        $data = [
+            'title' => 'Hasil Analisis Gizi Anda',
             'intake' => $totalIntake,
             'recommendations' => $recommendations,
             'menuRecommendations' => $menuRecommendations,
             'faq' => $faq,
-            'foods' => Food::orderBy('name')->get()
-        ]);
+        ];
+
+        $data['foods'] = Food::select('id', 'name', 'calories', 'image_url')
+                         ->orderBy('name', 'asc')
+                         ->get();
+        
+        return view('calculator.nutrition', $data)->with('scroll', true);
     }
 
+
+
+
+    private function _generateMenuRecommendations($bmr)
+    {
+        $mealPlan = [
+            'Sarapan' => ['percentage' => 0.25, 'target' => $bmr * 0.25, 'variability' => 50],
+            'Makan Siang' => ['percentage' => 0.35, 'target' => $bmr * 0.35, 'variability' => 75],
+            'Makan Malam' => ['percentage' => 0.30, 'target' => $bmr * 0.30, 'variability' => 75],
+            'Camilan' => ['percentage' => 0.10, 'target' => $bmr * 0.10, 'variability' => 50],
+        ];
+        $recommendations = [];
+        foreach ($mealPlan as $mealName => $plan) {
+            $minCalories = $plan['target'] - $plan['variability'];
+            $maxCalories = $plan['target'] + $plan['variability'];
+            $foods = Food::whereBetween('calories', [$minCalories, $maxCalories])->inRandomOrder()->take(3)->get();
+            if ($foods->isEmpty()) {
+                $foods = Food::select('*', DB::raw('ABS(calories - ' . $plan['target'] . ') as diff'))
+                               ->orderBy('diff')->take(3)->get();
+            }
+            $recommendations[$mealName] = $foods;
+        }
+        return $recommendations;
+    }
 }

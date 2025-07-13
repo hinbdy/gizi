@@ -12,6 +12,8 @@ use App\Models\Food;
 use App\Http\Controllers\Admin\AdminProfileController;
 use App\Models\Article;
 use App\Http\Controllers\CategoryController; 
+use Illuminate\Support\Facades\DB; 
+
 
 // Halaman utama
 
@@ -70,22 +72,54 @@ Route::middleware('auth')->group(function () {
 // });
 
 
-// Kalkulator Massa Tubuh
-Route::get('/kalkulator-massa-tubuh', function () {
-    return view('calculator.bmi', ['title' => 'Kalkulator Massa Tubuh']);
-})->name('bmi.calculator');
+    // Kalkulator Massa Tubuh
+    Route::get('/kalkulator-massa-tubuh', function () {
+        return view('calculator.bmi', ['title' => 'Kalkulator Massa Tubuh']);
+    })->name('bmi.calculator');
 
-Route::post('/kalkulator-massa-tubuh/hitung', [CalculatorController::class, 'calculateBMI'])->name('bmi.calculate');
+    Route::post('/kalkulator-massa-tubuh/hitung', [CalculatorController::class, 'calculateBMI'])->name('bmi.calculate');
 
 // Kalkulator Gizi Harian
 // Route::get('/kalkulator-gizi-harian', function () {
 //     return view('calculator.nutrition', ['title' => 'Kalkulator Gizi Harian']);
 // })->name('nutrition.calculator');
 
+// Route::get('/kalkulator-gizi-harian', function () {
+//     $foods = Food::orderBy('name', 'asc')->get();
+//     return view('calculator.nutrition', ['title' => 'Kalkulator Gizi Harian', 'foods' => $foods]);
+// })->name('nutrition.calculator');
+
+
+// ROUTE #1: Untuk MENAMPILKAN halaman form (GET)
 Route::get('/kalkulator-gizi-harian', function () {
-    $foods = Food::orderBy('name', 'asc')->get();
-    return view('calculator.nutrition', ['title' => 'Kalkulator Gizi Harian', 'foods' => $foods]);
+    
+    // 1. Cek dari mana pengguna datang (URL sebelumnya)
+    $previousUrl = URL::previous();
+
+    // 2. Jika pengguna TIDAK datang dari halaman hasil BMI, maka kita anggap
+    //    ini adalah kunjungan baru atau refresh. Hapus sesi BMI.
+    //    Ganti 'gizila.test' dengan URL lokal Anda jika berbeda.
+    if (!str_contains($previousUrl, '/kalkulator-massa-tubuh/hitung')) {
+        session()->forget(['bmi', 'bmr']);
+    }
+    
+    // 3. Lanjutkan dengan kode Anda yang sudah ada untuk mengambil data makanan
+    $foods = Food::select(
+                    'name',
+                    DB::raw('MIN(id) as id'),
+                    DB::raw('MIN(calories) as calories')
+                )
+                 ->groupBy('name')
+                 ->orderBy('name', 'asc')
+                 ->get();
+    
+    // 4. Kirim data ke view
+    return view('calculator.nutrition', [
+        'title' => 'Kalkulator Gizi Harian',
+        'foods' => $foods
+    ]);
 })->name('nutrition.calculator');
+
 
 Route::post('/kalkulator-gizi-harian/hitung', [CalculatorController::class, 'calculateNutrition'])->name('nutrition.calculate');
 

@@ -3,11 +3,11 @@
 
         <div class="mx-auto max-w-2xl text-center">
              <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-                <span class="relative inline-block">
-                    Artikel Edukasi Gizila
-                    <span class="absolute bottom-0 left-0 h-1.5 w-full origin-left scale-x-0 transform bg-green-600 transition-transform duration-500 ease-in-out animate-draw-line"></span>
-                </span>
-            </h2>
+             <span class="relative inline-block">
+                 Artikel Edukasi Gizila
+                 <span class="absolute bottom-[-8px] left-0 h-1.5 w-full origin-left scale-x-0 transform bg-gizila-dark transition-transform duration-500 ease-in-out animate-draw-line"></span>
+             </span>
+         </h2>
             
             <p class="mt-2 text-lg leading-8 text-gray-600">
                 Dapatkan Informasi Terbaru dari Gizila.
@@ -80,10 +80,11 @@
 
         <div class="mt-16 text-center">
             <a href="{{ route('blog.index') }}" 
-               class="inline-block rounded-md border border-gray-300 bg-gizila-dark px-6 py-3 text-white font-semibold shadow-sm hover:bg-green-800">
+               class="px-6 py-3 bg-gizila-dark text-white font-semibold rounded-full hover:bg-green-800 transition-all duration-300 text-sm sm:text-base">
                 Baca artikel edukasi lainnya
             </a>
         </div>
 
+        
     </div>
 </div>

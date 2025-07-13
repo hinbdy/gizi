@@ -1,21 +1,31 @@
-<section id="Tool" class="mb-[102px] flex flex-col gap-8">
-  <div class="container max-w-[1130px] mx-auto flex justify-between items-center">
-    <h2 class="font-semibold text-[32px]">Browse Tools</h2>
-  </div>
-  <div class="tools-logos w-full overflow-hidden flex flex-col gap-5">
-    <div class="group/slider flex flex-nowrap w-max items-center">
-      <div class="logo-container animate-[slide_50s_linear_infinite] group-hover/slider:pause-animate flex gap-5 pl-5 items-center flex-nowrap">
-        @foreach ([
-          'figma.svg', 'adobe-xd.svg', 'photoshop.svg', 'illustrator.svg', 'framer.png', 'webflow.svg',
-          'figma.svg', 'adobe-xd.svg', 'photoshop.svg', 'illustrator.svg', 'framer.png', 'webflow.svg'
-        ] as $tool)
-          <a href="#" class="group tool-card w-fit h-fit p-[1px] rounded-2xl bg-img-transparent hover:bg-img-purple-to-orange transition-all duration-300">
-            <div class="p-4 bg-[#1E1E1E] rounded-2xl flex items-center justify-center w-[96px] h-[96px]">
-              <img src="{{ asset('assets/images/logos/' . $tool) }}" alt="tool-logo" class="max-w-[56px] max-h-[56px]">
-            </div>
-          </a>
-        @endforeach
-      </div>
+<section id="Tool" class="py-16 bg-gizila-radial overflow-hidden">
+    <div class="text-center">
+        <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+            <span class="relative inline-block">
+                Powered By:
+                <span class="absolute bottom-[-8px] left-0 h-1.5 w-full origin-left scale-x-0 transform bg-gizila-dark transition-transform duration-500 ease-in-out animate-draw-line"></span>
+            </span>
+        </h2>
+
+        <div x-data="{ activeMarquee: 1 }" 
+             x-init="setInterval(() => { activeMarquee = activeMarquee === 1 ? 2 : 1 }, 8000)" 
+             class="relative mt-16 h-24">
+
+            <template x-if="activeMarquee === 1">
+                <div class="w-full">
+                     <marquee behavior="scroll" direction="left" scrollamount="25">
+                        <img src="{{ asset('assets/images/logos/guntara.png') }}" alt="Guntara Logo" class="h-20">
+                    </marquee>
+                </div>
+            </template>
+
+            <template x-if="activeMarquee === 2">
+                <div class="w-full">
+                     <marquee behavior="scroll" direction="left" scrollamount="25">
+                        <img src="{{ asset('assets/images/logos/gizila.png') }}" alt="Gizila Logo" class="h-20">
+                    </marquee>
+                </div>
+            </template>
+        </div>
     </div>
-  </div>
 </section>

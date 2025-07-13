@@ -1,8 +1,6 @@
-@props(['title'])
-
 <x-layout :title="$title">
   <section class="min-h-screen bg-gizila-radial py-24 px-4">
-    <div class="max-w-4xl mx-auto bg-[#d6f6e4] rounded-xl shadow-xl p-8">
+    <div class="container mx-auto bg-[#d6f6e4] rounded-xl shadow-xl p-8">
       <h1 class="text-3xl md:text-4xl font-bold text-center text-gizila-dark mb-6">
         Hitung Indeks Massa Tubuh (IMT)
       </h1>
@@ -46,29 +44,28 @@
               value="{{ old('usia', $usia ?? '') }}"
               class="w-full px-4 py-2 rounded-lg bg-[#fef5ee]" required>
           </div>
-
-          {{-- Jenis Kelamin --}}
+         {{-- Jenis Kelamin --}}
           <div>
             <label class="font-semibold text-gray-700 block mb-2">Jenis Kelamin</label>
-            <div class="flex gap-4">
-              <label class="flex items-center gap-2">
-                <input
-                  type="radio"
-                  name="jenis_kelamin"
-                  value="male"
-                  {{ old('jenis_kelamin', $jenisKelamin ?? '') == 'male' ? 'checked' : '' }}
-                  required>
-                Laki‐laki
-              </label>
-              <label class="flex items-center gap-2">
-                <input
-                  type="radio"
-                  name="jenis_kelamin"
-                  value="female"
-                  {{ old('jenis_kelamin', $jenisKelamin ?? '') == 'female' ? 'checked' : '' }}
-                  required>
-                Perempuan
-              </label>
+            <div class="grid grid-cols-2 gap-4">
+                {{-- Opsi Laki-laki --}}
+                <label class="cursor-pointer">
+                    <input type="radio" name="jenis_kelamin" value="male" class="sr-only peer" {{ old('jenis_kelamin', $jenisKelamin ?? '') == 'male' ? 'checked' : '' }} required>
+                    <div class="bg-[#fef5ee] rounded-xl p-2 border-4 peer-checked:border-green-700 shadow flex flex-col items-center justify-center h-32 text-center transition-all duration-200">
+                        {{-- URL IKON BARU (POLOS HITAM) --}}
+                        <img src="{{ asset('assets/images/ava.cwk.png') }}" alt="Ikon Laki-laki" class="h-16 w-16 object-contain mb-2">
+                        <p class="font-semibold text-gray-700 leading-tight">Laki-laki</p>
+                    </div>
+                </label>
+                {{-- Opsi Perempuan --}}
+                <label class="cursor-pointer">
+                    <input type="radio" name="jenis_kelamin" value="female" class="sr-only peer" {{ old('jenis_kelamin', $jenisKelamin ?? '') == 'female' ? 'checked' : '' }} required>
+                    <div class="bg-[#fef5ee] rounded-xl p-2 border-4 peer-checked:border-green-700 shadow flex flex-col items-center justify-center h-32 text-center transition-all duration-200">
+                        {{-- URL IKON BARU (POLOS HITAM) --}}
+                        <img src="{{ asset('assets/images/ava.cw.png') }}" alt="Ikon Perempuan" class="h-16 w-16 object-contain mb-2">
+                        <p class="font-semibold text-gray-700 leading-tight">Perempuan</p>
+                    </div>
+                </label>
             </div>
           </div>
         </div>
@@ -107,7 +104,7 @@
                   </div>
                   {{-- Deskripsi di bawah --}}
                   <div class="text-center px-2 py-4 bg-[#d6f6e4]">
-                    <p class="text-[9px] text-gray-600 italic leading-tight">
+                    <p class="text-bold-[9px] text-gray-600 italic leading-tight">
                       {{ $deskripsi }}
                     </p>
                   </div>
@@ -168,6 +165,57 @@
     </p>
   </div>
 </div>
+{{-- ==   KODE TAMBAHAN UNTUK DISCLAIMER DAN FAQ (BARU)   == --}}
+<div class="mt-12 grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+
+    {{-- Kolom Kiri: Disclaimer --}}
+    <div class="lg:col-span-1 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-800 p-6 rounded-lg lg:mt-12">
+        <h3 class="font-bold text-lg mb-2">Disclaimer Penting</h3>
+        <p class="text-sm">Hasil dari kalkulator ini adalah estimasi dan tidak menggantikan nasihat medis profesional. Faktor seperti komposisi tubuh (lemak vs. otot) dan kondisi kesehatan lain tidak dihitung. Untuk evaluasi kesehatan yang akurat, selalu konsultasikan dengan dokter atau ahli gizi.</p>
+    </div>
+
+    {{-- Kolom Kanan: FAQ --}}
+    <div class="lg:col-span-2" x-data="{ openFaq: 1 }">
+         <h3 class="text-2xl font-bold text-gizila-dark mb-4">Pertanyaan Umum (FAQ)</h3>
+         <div class="space-y-3">
+            
+            {{-- FAQ Item 1 --}}
+            <div class="border rounded-lg bg-white/50 shadow-sm">
+                <button @click="openFaq = openFaq === 1 ? 0 : 1" class="w-full flex justify-between items-center p-4 text-left font-semibold text-gray-700">
+                    <span>Apa itu Indeks Massa Tubuh (IMT)?</span>
+                    <svg class="w-5 h-5 transition-transform" :class="{'rotate-180': openFaq === 1 }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div x-show="openFaq === 1" x-collapse class="p-4 pt-0 text-gray-600">
+                   <p>Indeks Massa Tubuh atau IMT (Bahasa Inggris: Body Mass Index atau BMI) adalah nilai ukur untuk mengetahui status gizi seseorang berdasarkan berat dan tinggi badannya. IMT digunakan untuk menentukan apakah berat badan seseorang tergolong normal, kurang, berlebih, atau obesitas.</p>
+                </div>
+            </div>
+            
+            {{-- FAQ Item 2 --}}
+            <div class="border rounded-lg bg-white/50 shadow-sm">
+                <button @click="openFaq = openFaq === 2 ? 0 : 2" class="w-full flex justify-between items-center p-4 text-left font-semibold text-gray-700">
+                    <span>Apakah hasil IMT selalu akurat?</span>
+                    <svg class="w-5 h-5 transition-transform" :class="{'rotate-180': openFaq === 2 }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div x-show="openFaq === 2" x-collapse class="p-4 pt-0 text-gray-600">
+                   <p>IMT adalah alat skrining yang baik, namun memiliki keterbatasan. Ia tidak bisa membedakan antara massa lemak dan massa otot. Oleh karena itu, seorang atlet dengan massa otot tinggi bisa saja memiliki skor IMT di kategori "berlebih" padahal kondisi tubuhnya sangat sehat. Sebaliknya, orang tua dengan massa otot rendah bisa memiliki IMT normal padahal kadar lemak tubuhnya tinggi.</p>
+                </div>
+            </div>
+
+            {{-- FAQ Item 3 --}}
+            <div class="border rounded-lg bg-white/50 shadow-sm">
+                <button @click="openFaq = openFaq === 3 ? 0 : 3" class="w-full flex justify-between items-center p-4 text-left font-semibold text-gray-700">
+                    <span>Apa itu Rumus Harris-Benedict?</span>
+                    <svg class="w-5 h-5 transition-transform" :class="{'rotate-180': openFaq === 3 }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div x-show="openFaq === 3" x-collapse class="p-4 pt-0 text-gray-600">
+                   <p>Rumus Harris-Benedict adalah salah satu metode yang digunakan untuk mengestimasi tingkat metabolisme basal (BMR) seseorang, yaitu jumlah kalori yang dibakar tubuh saat istirahat total. Hasil BMR ini kemudian dikalikan dengan tingkat aktivitas fisik untuk mendapatkan estimasi total kebutuhan kalori harian (TDEE) Anda, seperti yang ditampilkan pada hasil perhitungan di atas.</p>
+                </div>
+            </div>
+
+         </div>
+    </div>
+</div>
+
 @endisset
 
 {{-- 3) Script JavaScript --}}

@@ -2,8 +2,9 @@
   x-data="{ scrolled: false }"
   x-init="scrolled = window.scrollY > 10; window.addEventListener('scroll', () => { scrolled = window.scrollY > 10 })"
   :class="scrolled 
-    ? 'bg-gizila-radial dark:bg-gizila-dark transition-all ease-in-out duration-500' 
-    : 'bg-transparent backdrop transition-all ease-in-out duration-500'"
+    ? 'bg-white/80 backdrop-blur-sm shadow-sm dark:bg-gray-900/80 dark:shadow-md transition duration-300' 
+    : 'bg-transparent transition-all ease-in-out duration-500'"
+  {{-- === AKHIR PERUBAHAN #1 === --}}
   class="fixed top-0 left-0 right-0 z-50"
 >
   <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
@@ -24,7 +25,7 @@
             type="text"
             name="search"
             id="searchInput"
-            placeholder="Cari artikel..."
+            placeholder="Cari artikel... lalu klik enter"
             value="{{ request('search') }}"
             class="flex-1 bg-transparent focus:outline-none text-sm text-gray-700"
             autocomplete="off"

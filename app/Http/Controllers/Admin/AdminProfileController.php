@@ -7,12 +7,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
+use App\Models\User;
 
 class AdminProfileController extends Controller
 {
     public function edit(): View
-    {
-        return view('admin.profile', ['user' => auth()->user()]);
+    {   $admins = User::where('role', 'admin')->get();
+        return view('admin.profile', [
+            'user' => auth()->user(),
+            'admins' => $admins 
+        ]);
     }
 
     public function update(Request $request): RedirectResponse

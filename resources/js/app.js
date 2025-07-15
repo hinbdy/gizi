@@ -4,6 +4,9 @@ import './bootstrap';
 // 2. Import semua library yang kita butuhkan
 import Flickity from 'flickity';
 import 'flickity/css/flickity.css'; // Import juga CSS-nya
+import Alpine from 'alpinejs';
+window.Alpine = Alpine;
+Alpine.start();
 
 // 3. Kita bungkus semua logika inisialisasi Anda ke dalam satu fungsi
 function initializePlugins() {

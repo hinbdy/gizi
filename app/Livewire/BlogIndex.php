@@ -13,6 +13,7 @@ class BlogIndex extends Component
     // protected string $paginationTheme = 'bootstrap';
 
     protected string $paginationTheme = 'vendor.pagination.tailwind';
+    
 
     #[Url(except: '')]
     public string $search = '';

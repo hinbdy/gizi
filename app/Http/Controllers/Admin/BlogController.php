@@ -7,22 +7,32 @@ use Illuminate\Http\Request;
 use App\Models\Article;
 use App\Models\Category;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str; // Diaktifkan kembali untuk membuat slug kategori
+use Illuminate\Support\Str;
 
 class BlogController extends Controller
 {
     /**
      * Tampilkan daftar artikel di dashboard admin.
+     * === PERUBAHAN DI SINI UNTUK SEARCH & PAGINATION ===
      */
     public function index()
     {
-        $articles = Article::with('category', 'author')->orderByDesc('created_at')->get();
+        // Query dasar untuk artikel
+        $query = Article::with('category', 'author')->latest();
+
+        // Terapkan filter pencarian jika ada input 'search'
+        if (request('search')) {
+            $query->where('title', 'like', '%' . request('search') . '%');
+        }
+
+        // Ambil data dengan pagination (10 artikel per halaman)
+        $articles = $query->paginate(10);
+
         return view('admin.blog.index', compact('articles'));
     }
 
     /**
      * Tampilkan form untuk membuat artikel baru.
-     * DIUBAH: Tidak perlu lagi mengirim data kategori.
      */
     public function create()
     {
@@ -31,7 +41,6 @@ class BlogController extends Controller
 
     /**
      * Simpan artikel baru ke database.
-     * DIUBAH: Menggunakan logika "Find or Create".
      */
     public function store(Request $request)
     {
@@ -39,21 +48,19 @@ class BlogController extends Controller
             'title'         => 'required|string|max:255',
             'excerpt'       => 'nullable|string',
             'content'       => 'required|string',
-            'category_name' => 'required|string|max:100', // Validasi input teks 'category_name'
+            'category_name' => 'required|string|max:100',
             'thumbnail'     => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'published'     => 'required|boolean',
         ]);
 
-        // Logika "Find or Create" untuk Kategori
         $category = Category::firstOrCreate(
-            ['name' => $validatedData['category_name']], // Cari berdasarkan nama
-            ['slug' => Str::slug($validatedData['category_name'])] // Jika tidak ada, buat baru dengan slug ini
+            ['name' => $validatedData['category_name']],
+            ['slug' => Str::slug($validatedData['category_name'])]
         );
 
-        // Siapkan data untuk disimpan ke tabel articles
         $articleData = $validatedData;
-        unset($articleData['category_name']); // Hapus 'category_name' karena tidak ada di tabel articles
-        $articleData['category_id'] = $category->id; // Tambahkan 'category_id' yang benar
+        unset($articleData['category_name']);
+        $articleData['category_id'] = $category->id;
         
         if ($request->hasFile('thumbnail')) {
             $articleData['thumbnail'] = $request->file('thumbnail')->store('thumbnails', 'public');
@@ -69,7 +76,6 @@ class BlogController extends Controller
 
     /**
      * Tampilkan form untuk mengedit artikel.
-     * DIUBAH: Tidak perlu lagi mengirim data kategori.
      */
     public function edit(Article $article)
     {
@@ -78,7 +84,6 @@ class BlogController extends Controller
 
     /**
      * Perbarui data artikel yang sudah ada.
-     * DIUBAH: Menggunakan logika "Find or Create".
      */
     public function update(Request $request, Article $article)
     {
@@ -86,18 +91,16 @@ class BlogController extends Controller
             'title'         => 'required|string|max:255',
             'excerpt'       => 'nullable|string',
             'content'       => 'required|string',
-            'category_name' => 'required|string|max:100', // Validasi input teks 'category_name'
+            'category_name' => 'required|string|max:100',
             'thumbnail'     => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'published'     => 'required|boolean',
         ]);
         
-        // Logika "Find or Create" untuk Kategori
         $category = Category::firstOrCreate(
             ['name' => $validatedData['category_name']],
             ['slug' => Str::slug($validatedData['category_name'])]
         );
         
-        // Siapkan data untuk diupdate
         $articleData = $validatedData;
         unset($articleData['category_name']);
         $articleData['category_id'] = $category->id;
@@ -120,8 +123,8 @@ class BlogController extends Controller
     public function destroy(Article $article)
     {
         if ($article->thumbnail) {
-        Storage::disk('public')->delete($article->thumbnail); 
-    }
+            Storage::disk('public')->delete($article->thumbnail); 
+        }
 
         $article->delete();
 

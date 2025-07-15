@@ -1,10 +1,8 @@
-@props(['title' => 'Dashboard Admin'])
+@props(['title' => 'Dashboard Admin Artikel Gizila'])
 
 <x-layouts.admin :title="$title">
     <div class="relative">
-        {{-- <button onclick="toggleDarkMode()" class="absolute top-6 right-6 px-4 py-2 text-sm rounded-full shadow bg-gradient-to-r from-purple-500 to-indigo-500 text-white hover:scale-105 transition-transform duration-300">
-            🌗 Ganti Mode
-        </button> --}}
+       
     </div>
 
     <div class="flex items-center gap-4 mb-8 border-b border-green-500 pb-6 animate-fade-in">
@@ -17,7 +15,7 @@
         @endif
 
         <div>
-            <h2 class="text-2xl font-semibold text-gray-800 dark:text-white">
+            <h2 class="text-2xl font-semibold text-gizila-dark dark:text-white">
                 <span id="greeting"></span>, {{ $user->name }} 👋
             </h2>
             <p class="text-gray-600 dark:text-gray-300 text-sm mt-1">Selamat datang kembali di Dashboard admin Gizila.</p>
@@ -27,7 +25,7 @@
     <p class="text-sm text-gray-500 dark:text-gray-400 mb-6 animate-fade-in">Waktu sekarang: <span id="current-time"></span></p>
 
     <div class="space-y-8 animate-fade-in">
-        <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-4 border-l-4 border-green-500 pl-4">{{ $title }}</h1>
+        <h1 class="text-3xl font-bold text-gizila-dark dark:text-white mb-4 border-l-4 border-green-500 pl-4">{{ $title }}</h1>
 
         <div class="grid md:grid-cols-2 gap-6">
             <div class="bg-gradient-to-br from-green-100 to-white dark:from-gray-800 dark:to-gray-900 border border-green-300 dark:border-gray-700 rounded-2xl p-6 shadow-md hover:shadow-xl transition">

@@ -13,6 +13,9 @@ use App\Http\Controllers\Admin\AdminProfileController;
 use App\Models\Article;
 use App\Http\Controllers\CategoryController; 
 use Illuminate\Support\Facades\DB; 
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Middleware\IsAdminMiddleware;
+
 
 
 // Halaman utama
@@ -48,6 +51,14 @@ Route::get('/login', function () {
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 // Route::post('/register', [RegisterController::class, 'register']);
+
+
+Route::prefix('admin')->middleware(['auth', IsAdminMiddleware::class])->name('admin.')->group(function () {
+    // Rute Baru untuk Manajemen Hak Akses
+    Route::post('/users', [App\Http\Controllers\Admin\UserController::class, 'store'])->name('users.store');
+    Route::delete('/users/{user}', [App\Http\Controllers\Admin\UserController::class, 'destroy'])->name('users.destroy');
+});
+
 
 // Dashboard admin (controller, butuh login)
 Route::middleware('auth')->group(function () {

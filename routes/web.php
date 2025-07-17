@@ -18,6 +18,7 @@ use App\Http\Middleware\IsAdminMiddleware;
 
 
 
+
 // Halaman utama
 
 Route::get('/', function () {
@@ -74,6 +75,28 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [AdminProfileController::class, 'edit'])->name('admin.profile');
     Route::put('/profile', [AdminProfileController::class, 'update'])->name('admin.profile.update');
 });
+
+// Jumlah artikel yang dibuat tiap bulan
+Route::get('/admin/chart/article-created', [BlogController::class, 'statistikArtikelCreated'])
+    ->name('admin.articleCreatedGrafik')
+    ->middleware('auth');
+
+// Jumlah artikel yang dipublish tiap bulan
+Route::get('/admin/chart/article-published', [BlogController::class, 'statistikArtikelPublished'])
+    ->name('admin.articlePublishedGrafik')
+    ->middleware('auth');
+
+// Jumlah artikel draft tiap bulan
+Route::get('/admin/chart/article-draft', [BlogController::class, 'statistikArtikelDraft'])
+    ->name('admin.articleDraftGrafik')
+    ->middleware('auth');
+
+//Route untuk Statistik Akses Artikel oleh User
+Route::get('/admin/chart/user-access', [BlogController::class, 'statistikArtikelUser'])
+    ->name('admin.userAksesGrafik')
+    ->middleware('auth');
+
+
 
 
 // routes/web.php

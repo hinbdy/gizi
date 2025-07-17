@@ -10,29 +10,42 @@
   <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
 
     {{-- Logo dan Search (Tidak Ada Perubahan) --}}
-    <div class="flex items-center gap-4 w-full max-w-lg">
-      <a href="{{ route('home') }}" class="flex items-center gap-2 shrink-0">
-        <img src="{{ asset('assets/images/logo-gizila.png') }}" alt="Gizila Logo" class="h-12 w-auto object-contain dark">
-      </a>
+   <div class="flex items-center gap-4 w-full max-w-lg">
+  {{-- Logo --}}
+  <a href="{{ route('home') }}" class="flex items-center gap-2 shrink-0">
+    <img src="{{ asset('assets/images/logo-gizila.png') }}" alt="Gizila Logo" class="h-12 w-auto object-contain dark">
+  </a>
 
-      <form method="GET" action="{{ route('blog.index') }}" class="hidden md:block w-full">
-        <div 
-        :class="scrolled
-        ? 'flex items-center bg-white border border-gizila-dark rounded-full px-4 py-1 shadow-sm'
-        : 'flex items-center bg-white border border-black rounded-full px-4 py-1 shadow-sm'">
-          <img src="{{ asset('assets/images/icons/search-normal.svg') }}" class="w-4 h-4 mr-2" alt="Search">
-          <input
-            type="text"
-            name="search"
-            id="searchInput"
-            placeholder="Cari artikel... lalu klik enter"
-            value="{{ request('search') }}"
-            class="flex-1 bg-transparent focus:outline-none text-sm text-gray-700"
-            autocomplete="off"
-          />
-        </div>
-      </form>
+  {{-- Form Search --}}
+  <form method="GET" action="{{ route('blog.index') }}" class="hidden md:block w-full">
+    <div 
+      class="flex items-center rounded-full border px-3 py-1 shadow-sm bg-white transition duration-300"
+      :class="scrolled ? 'border-gizila-dark' : 'border-black'">
+      
+      <input
+        type="text"
+        name="search"
+        id="searchInput"
+        placeholder="Cari artikel..."
+        value="{{ request('search') }}"
+        class="flex-1 bg-transparent focus:outline-none text-sm text-gray-700"
+        autocomplete="off"
+      />
+
+      <button type="submit" class="ml-2 hover:bg-gizila-dark/20 rounded-full p-2 transition">
+        {{-- Ganti SVG agar warnanya bisa diubah via Tailwind --}}
+        <svg xmlns="http://www.w3.org/2000/svg"
+             class="h-5 w-5 text-gray-600 hover:text-gizila-dark transition"
+             viewBox="0 0 20 20"
+             fill="currentColor">
+          <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z"
+            clip-rule="evenodd" />
+        </svg>
+      </button>
     </div>
+  </form>
+</div>
+
 
     {{-- Hamburger (mobile) (Tidak Ada Perubahan) --}}
     <button 
@@ -109,7 +122,7 @@
       </ul>
 
       {{-- LOGIN (Tidak Ada Perubahan) --}}
-      <div class="flex gap-4 items-center mt-4 lg:mt-0">
+      {{-- <div class="flex gap-4 items-center mt-4 lg:mt-0">
         <a href="{{ route('login') }}" 
            class="px-4 py-2 rounded-lg border transition"
            :class="scrolled 
@@ -119,5 +132,5 @@
         </a>
       </div>
     </div>
-  </div>
+  </div> --}}
 </nav>

@@ -5,6 +5,9 @@ import './bootstrap';
 import Flickity from 'flickity';
 import 'flickity/css/flickity.css'; // Import juga CSS-nya
 import Alpine from 'alpinejs';
+import persist from '@alpinejs/persist'; 
+
+Alpine.plugin(persist);
 window.Alpine = Alpine;
 Alpine.start();
 

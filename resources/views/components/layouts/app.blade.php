@@ -19,12 +19,10 @@
   {{-- --- PERBAIKAN UTAMA ADA DI SINI --- --}}
   {{-- Memanggil semua CSS dan JS utama Anda melalui satu perintah Vite --}}
   @vite(['resources/css/app.css', 'resources/js/app.js'])
-
-  {{-- Style untuk Livewire (Tetap) --}}
-  @livewireStyles
   
   {{-- Alpine JS (dihapus dari sini karena akan kita panggil lewat app.js) --}}
   @stack('styles')
+  @livewireStyles
 </head>
 <body class="text-belibang-grey font-poppins relative overflow-x-hidden">
 
@@ -42,8 +40,9 @@
   {{-- --- BAGIAN SCRIPT DI BAWAH INI DIRAPIKAN --- --}}
   {{-- Hanya @livewireScripts yang perlu ada di sini sebelum body ditutup.
        Semua script lain akan dikelola oleh app.js yang dipanggil Vite di <head>. --}}
-  @livewireScripts
+
   @stack('scripts')
   <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
+  @livewireScripts
 </body>
 </html>

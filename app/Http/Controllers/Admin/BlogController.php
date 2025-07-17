@@ -8,6 +8,7 @@ use App\Models\Article;
 use App\Models\Category;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use App\Models\ArticleView; 
 
 class BlogController extends Controller
 {
@@ -30,6 +31,74 @@ class BlogController extends Controller
 
         return view('admin.blog.index', compact('articles'));
     }
+
+     public function statistikUserAksesArtikel()
+    {
+        $monthlyAccess = \DB::table('article_views')
+            ->selectRaw('MONTH(created_at) as month, COUNT(DISTINCT user_id) as total_users')
+            ->whereYear('created_at', now()->year)
+            ->groupByRaw('MONTH(created_at)')
+            ->pluck('total_users', 'month');
+
+        $data = [];
+        for ($i = 1; $i <= 12; $i++) {
+            $data[] = $monthlyAccess[$i] ?? 0;
+        }
+
+        return response()->json($data);
+    }
+
+    // 2. Statistik Jumlah Artikel Dibuat per Bulan
+public function statistikArtikelCreated()
+{
+    $monthly = \DB::table('articles')
+        ->selectRaw('MONTH(created_at) as month, COUNT(*) as total')
+        ->whereYear('created_at', now()->year)
+        ->groupByRaw('MONTH(created_at)')
+        ->pluck('total', 'month');
+
+    $data = [];
+    for ($i = 1; $i <= 12; $i++) {
+        $data[] = $monthly[$i] ?? 0;
+    }
+    return response()->json($data);
+}
+
+// 3. Statistik Artikel Published per Bulan
+public function statistikArtikelPublished()
+{
+    $monthly = \DB::table('articles')
+        ->selectRaw('MONTH(created_at) as month, COUNT(*) as total')
+        ->whereYear('created_at', now()->year)
+        ->where('published', true)
+        ->groupByRaw('MONTH(created_at)')
+        ->pluck('total', 'month');
+
+    $data = [];
+    for ($i = 1; $i <= 12; $i++) {
+        $data[] = $monthly[$i] ?? 0;
+    }
+    return response()->json($data);
+}
+
+// 4. Statistik Artikel Draft per Bulan
+public function statistikArtikelDraft()
+{
+    $monthly = \DB::table('articles')
+        ->selectRaw('MONTH(created_at) as month, COUNT(*) as total')
+        ->whereYear('created_at', now()->year)
+        ->where('published', false)
+        ->groupByRaw('MONTH(created_at)')
+        ->pluck('total', 'month');
+
+    $data = [];
+    for ($i = 1; $i <= 12; $i++) {
+        $data[] = $monthly[$i] ?? 0;
+    }
+    return response()->json($data);
+}
+
+
 
     /**
      * Tampilkan form untuk membuat artikel baru.

@@ -30,4 +30,22 @@ class DashboardController extends Controller
         // ]);
         return view('admin.dashboard', compact('user', 'articles', 'totalArticles', 'articlePerMonth'));
     }
+
+    public function userAksesGrafik()
+    {   
+    // Ambil jumlah views per bulan (dari data artikel)
+    $viewsPerMonth = Article::selectRaw('MONTH(created_at) as month, SUM(views) as total_views')
+                            ->groupByRaw('MONTH(created_at)')
+                            ->orderByRaw('MONTH(created_at)')
+                            ->pluck('total_views', 'month');
+
+    // Siapkan array 12 bulan, default 0
+    $data = array_fill(1, 12, 0);
+    foreach ($viewsPerMonth as $month => $total) {
+        $data[(int)$month] = $total;
+    }
+
+    return response()->json(array_values($data));
+    }
+
 }

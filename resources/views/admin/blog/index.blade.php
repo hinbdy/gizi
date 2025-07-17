@@ -7,20 +7,22 @@
                 <h1 class="text-2xl font-semibold text-gizila-dark dark:text-black">📰 Manajemen Artikel</h1>
             </div>
             <div class="flex items-center gap-4 w-full sm:w-auto">
-                {{-- Form Pencarian Baru --}}
-                <form action="{{ route('admin.blog.index') }}" method="GET" class="relative w-full sm:w-80">
-                    <input 
-                        type="text" 
-                        name="search" 
-                        value="{{ request('search') }}"
-                        placeholder="Cari artikel... lalu klik enter" 
-                        {{-- PERUBAHAN DI SINI --}}
-                        class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-gizila-dark bg-white dark:bg-white dark:border-gray-600 dark:text-black"
-                    >
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                    </div>
-                </form>
+               {{-- Form Pencarian Admin --}}
+<form action="{{ route('admin.blog.index') }}" method="GET" class="relative w-full sm:w-80">
+    <input 
+        type="text" 
+        name="search" 
+        value="{{ request('search') }}"
+        placeholder="Cari artikel... lalu klik enter" 
+        class="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-gizila-dark bg-white dark:bg-white dark:border-gray-600 dark:text-black">
+    {{-- Tombol Kirim (ikon search klik-able di kanan) --}}
+    <button type="submit" class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-400 hover:text-gizila-dark transition">
+        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" />
+        </svg>
+    </button>
+</form>
+
                 <a href="{{ route('admin.blog.create') }}" class="flex-shrink-0 bg-green-600 hover:bg-green-700 text-white font-semibold px-4 py-2 rounded-lg shadow">
                     + Tambah Artikel
                 </a>

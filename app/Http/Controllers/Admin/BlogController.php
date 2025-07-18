@@ -12,14 +12,20 @@ use App\Models\ArticleView;
 
 class BlogController extends Controller
 {
-    /**
-     * Tampilkan daftar artikel di dashboard admin.
-     * === PERUBAHAN DI SINI UNTUK SEARCH & PAGINATION ===
-     */
     public function index()
     {
         // Query dasar untuk artikel
         $query = Article::with('category', 'author')->latest();
+        $activeCategory = null; 
+
+         if (request('category')) {
+            // Cari kategori berdasarkan slug
+            $category = Category::where('slug', request('category'))->firstOrFail();
+            $activeCategory = $category->name; // Simpan nama kategori
+
+            // Filter query artikel berdasarkan ID kategori
+            $query->where('category_id', $category->id);
+        }
 
         // Terapkan filter pencarian jika ada input 'search'
         if (request('search')) {
@@ -29,80 +35,13 @@ class BlogController extends Controller
         // Ambil data dengan pagination (10 artikel per halaman)
         $articles = $query->paginate(10);
 
-        return view('admin.blog.index', compact('articles'));
+        return view('admin.blog.index', [
+            'articles' => $articles,
+            'activeCategory' => $activeCategory,
+        ]);
     }
 
-     public function statistikUserAksesArtikel()
-    {
-        $monthlyAccess = \DB::table('article_views')
-            ->selectRaw('MONTH(created_at) as month, COUNT(DISTINCT user_id) as total_users')
-            ->whereYear('created_at', now()->year)
-            ->groupByRaw('MONTH(created_at)')
-            ->pluck('total_users', 'month');
-
-        $data = [];
-        for ($i = 1; $i <= 12; $i++) {
-            $data[] = $monthlyAccess[$i] ?? 0;
-        }
-
-        return response()->json($data);
-    }
-
-    // 2. Statistik Jumlah Artikel Dibuat per Bulan
-public function statistikArtikelCreated()
-{
-    $monthly = \DB::table('articles')
-        ->selectRaw('MONTH(created_at) as month, COUNT(*) as total')
-        ->whereYear('created_at', now()->year)
-        ->groupByRaw('MONTH(created_at)')
-        ->pluck('total', 'month');
-
-    $data = [];
-    for ($i = 1; $i <= 12; $i++) {
-        $data[] = $monthly[$i] ?? 0;
-    }
-    return response()->json($data);
-}
-
-// 3. Statistik Artikel Published per Bulan
-public function statistikArtikelPublished()
-{
-    $monthly = \DB::table('articles')
-        ->selectRaw('MONTH(created_at) as month, COUNT(*) as total')
-        ->whereYear('created_at', now()->year)
-        ->where('published', true)
-        ->groupByRaw('MONTH(created_at)')
-        ->pluck('total', 'month');
-
-    $data = [];
-    for ($i = 1; $i <= 12; $i++) {
-        $data[] = $monthly[$i] ?? 0;
-    }
-    return response()->json($data);
-}
-
-// 4. Statistik Artikel Draft per Bulan
-public function statistikArtikelDraft()
-{
-    $monthly = \DB::table('articles')
-        ->selectRaw('MONTH(created_at) as month, COUNT(*) as total')
-        ->whereYear('created_at', now()->year)
-        ->where('published', false)
-        ->groupByRaw('MONTH(created_at)')
-        ->pluck('total', 'month');
-
-    $data = [];
-    for ($i = 1; $i <= 12; $i++) {
-        $data[] = $monthly[$i] ?? 0;
-    }
-    return response()->json($data);
-}
-
-
-
-    /**
-     * Tampilkan form untuk membuat artikel baru.
-     */
+    //Tampilkan form untuk membuat artikel baru.
     public function create()
     {
         return view('admin.blog.create');

@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LoginController;
 // use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\BlogController as AdminBlogController;
+use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CalculatorController;
 use App\Http\Controllers\AboutController;
@@ -15,6 +16,7 @@ use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\DB; 
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Middleware\IsAdminMiddleware;
+
 
 
 
@@ -69,35 +71,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/blog', [AdminBlogController::class, 'index'])->name('admin.blog.index');
     Route::get('/admin/blog/create', [AdminBlogController::class, 'create'])->name('admin.blog.create');
     Route::post('/admin/blog', [AdminBlogController::class, 'store'])->name('admin.blog.store');
-    Route::get('/admin/blog/{article}/edit', [AdminBlogController::class, 'edit'])->name('admin.blog.edit');
-    Route::put('/admin/blog/{article}', [AdminBlogController::class, 'update'])->name('admin.blog.update');
+    Route::get('/admin/blog/{article:slug}/edit', [AdminBlogController::class, 'edit'])->name('admin.blog.edit');
+    Route::put('/admin/blog/{article:slug}', [AdminBlogController::class, 'update'])->name('admin.blog.update');
     Route::delete('/admin/blog/{article}', [AdminBlogController::class, 'destroy'])->name('admin.blog.destroy');
     Route::get('/profile', [AdminProfileController::class, 'edit'])->name('admin.profile');
     Route::put('/profile', [AdminProfileController::class, 'update'])->name('admin.profile.update');
+    Route::resource('/admin/categories', AdminCategoryController::class)->names('admin.categories');
 });
-
-// Jumlah artikel yang dibuat tiap bulan
-Route::get('/admin/chart/article-created', [BlogController::class, 'statistikArtikelCreated'])
-    ->name('admin.articleCreatedGrafik')
-    ->middleware('auth');
-
-// Jumlah artikel yang dipublish tiap bulan
-Route::get('/admin/chart/article-published', [BlogController::class, 'statistikArtikelPublished'])
-    ->name('admin.articlePublishedGrafik')
-    ->middleware('auth');
-
-// Jumlah artikel draft tiap bulan
-Route::get('/admin/chart/article-draft', [BlogController::class, 'statistikArtikelDraft'])
-    ->name('admin.articleDraftGrafik')
-    ->middleware('auth');
-
-//Route untuk Statistik Akses Artikel oleh User
-Route::get('/admin/chart/user-access', [BlogController::class, 'statistikArtikelUser'])
-    ->name('admin.userAksesGrafik')
-    ->middleware('auth');
-
-
-
 
 // routes/web.php
 // Route::middleware(['auth'])->prefix('admin')->group(function () {

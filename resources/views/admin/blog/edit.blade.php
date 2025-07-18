@@ -18,24 +18,26 @@
             </div>
         @endif
 
-        <form action="{{ route('admin.blog.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
+       {{-- PERUBAHAN DI SINI: form action menuju ke route 'update' dan method 'PUT' --}}
+        <form action="{{ route('admin.blog.update', $article->slug) }}" method="POST" enctype="multipart/form-data" class="space-y-6">
             @csrf
+            @method('PUT')
 
             {{-- Grid untuk input bagian atas --}}
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                     <label for="title" class="block text-sm font-semibold text-gray-700 dark:text-black mb-1">Judul Artikel</label>
-                    <input id="title" type="text" name="title" value="{{ old('title') }}" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black bg-[#d6f6e4] dark:border-gray-600 dark:text-black" required>
+                    <input id="title" type="text" name="title" value="{{ old('title', $article->title) }}" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black bg-[#d6f6e4] dark:border-gray-600 dark:text-black" required>
                 </div>
 
                 <div>
                     <label for="category_name" class="block text-sm font-semibold text-gray-700 dark:text-black mb-1">Kategori</label>
-                    <input id="category_name" type="text" name="category_name" value="{{ old('category_name') }}" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black bg-[#d6f6e4] dark:border-gray-600 dark:text-black" placeholder="Ketik untuk membuat baru" required>
+                    {{-- PERUBAHAN DI SINI: Tampilkan value dari $article->category->name --}}
+                    <input id="category_name" type="text" name="category_name" value="{{ old('category_name', $article->category->name) }}" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black bg-[#d6f6e4] dark:border-gray-600 dark:text-black" placeholder="Ketik untuk membuat baru" required>
                 </div>
                 
                <div>
     <label for="published" class="block text-sm font-semibold text-gray-700 dark:text-black mb-1">Status</label>
-    
     {{-- Komponen Dropdown Kustom dengan Alpine.js --}}
     <div 
         x-data="{ 
@@ -46,11 +48,10 @@
             ],
             selected: { value: '1', text: 'Terpublikasi' }
         }" 
-        x-init="selected = options.find(opt => opt.value === '{{ old('published', '1') }}') || options[0]"
-        class="relative"
-    >
+        {{-- PERUBAHAN DI SINI: x-init diubah untuk mengambil data dari $article->published --}}
+        x-init="selected = options.find(opt => opt.value == '{{ old('published', $article->published) }}') || options[0]"
+        class="relative">
         <input type="hidden" name="published" :value="selected.value">
-
         <button 
             type="button" 
             @click="open = !open" 
@@ -64,7 +65,7 @@
             x-show="open" 
             @click.away="open = false" 
             x-transition 
-            class="absolute z-10 mt-1 w-full rounded-md shadow-lg border border-gray-300 bg-gizila-radial" 
+            class="absolute z-10 mt-1 w-full rounded-md shadow-lg border border-gray-300 bg-[#d6f6e4]" 
             style="display: none;"
         >
             <template x-for="option in options" :key="option.value">
@@ -80,7 +81,6 @@
         </div>
     </div>
 </div>
-
                 <div>
                     <label for="thumbnail" class="block text-sm font-semibold text-gray-700 dark:text-black mb-1">Thumbnail (opsional)</label>
                     <input type="file" name="thumbnail" accept="image/*" class="w-full text-sm font-semibold text-gray-500 file:mr-3 file:border-0 file:bg-[#d6f6e4] file:text-gray-700 dark:file:bg-[#d6f6e4] dark:file:text-black file:px-4 file:py-2 file:rounded-md hover:file:bg-gray-300 dark:hover:file:bg-gray-200">
@@ -95,7 +95,8 @@
             {{-- Input untuk Konten Artikel --}}
             <div>
                 <label for="content" class="block text-sm font-semibold text-gray-700 dark:text-black mb-1">Konten Artikel</label>
-                <textarea id="content" name="content" rows="10" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black bg-[#d6f6e4] dark:border-gray-600 dark:text-black" required>{{ old('content') }}</textarea>
+                {{-- PERUBAHAN DI SINI: Tampilkan value dari $article->content --}}
+                <textarea id="content" name="content" rows="10" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black bg-[#d6f6e4] dark:border-gray-600 dark:text-black" required>{{ old('content', $article->content) }}</textarea>
             </div>
 
             {{-- Tombol Aksi --}}

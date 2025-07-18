@@ -2,6 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  /* Warna untuk LIGHT MODE (Tampilan Terang) */
+  --chart-grid-color: rgba(0, 0, 0, 0.1);    /* Garis grid abu-abu gelap transparan */
+  --chart-text-color: #6b7280;               /* Teks abu-abu gelap (Gray-500) */
+}
+
+.dark {
+  /* Warna untuk DARK MODE (Tampilan Gelap) */
+  --chart-grid-color: rgba(255, 255, 255, 0.15); /* Garis grid putih transparan */
+  --chart-text-color: rgba(255, 255, 255, 0.7);  /* Teks putih transparan */
+}
+
 .select2-container {
   width: 100% !important;
   max-width: 100% !important;

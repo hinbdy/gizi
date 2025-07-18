@@ -154,7 +154,7 @@
                                 <img src="{{ $admin->photo ? asset('storage/' . $admin->photo) : 'https://ui-avatars.com/api/?name=' . urlencode($admin->name) . '&background=random&color=fff' }}" alt="Foto" class="w-10 h-10 rounded-full object-cover">
                                 <div>
                                     <p class="font-semibold text-gizila-dark dark:text-black">{{ $admin->name }}</p>
-                                    <p class="text-sm text-gray-500 dark:text-gray-400">{{ $admin->email }}</p>
+                                    <p class="text-sm text-gray-500 dark:text-gray-500">{{ $admin->email }}</p>
                                 </div>
                             </div>
                             <div>

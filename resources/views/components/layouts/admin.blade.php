@@ -36,7 +36,9 @@
                     <div>
                          {{-- PERUBAHAN DI SINI --}}
                         <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg {{ request()->routeIs('admin.dashboard') ? 'bg-gizila-radial dark:bg-gizila-dark-card text-gizila-dark dark:text-gizila-dark font-semibold' : 'text-black dark:text-black hover:bg-gizila-dark dark:hover:bg-gizila-radial' }}" :class="isSidebarOpen ? '' : 'justify-center'">
-                            <svg class="w-5 h-5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" /></svg>
+                            <svg class="w-5 h-5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h7.5" />
+                            </svg>
                             <span x-show="isSidebarOpen" x-transition class="whitespace-nowrap">Dashboard</span>
                         </a>
                     </div>
@@ -47,6 +49,15 @@
                             <span x-show="isSidebarOpen" x-transition class="whitespace-nowrap">Artikel</span>
                         </a>
                     </div>
+
+                    <div class="pt-2">
+                        <a href="{{ route('admin.categories.index') }}" class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg {{ request()->routeIs('admin.categories.*') ? 'bg-gizila-radial dark:bg-gizila-dark-card text-gizila-dark dark:text-gizila-dark font-semibold' : 'text-black dark:text-black hover:bg-gizila-dark dark:hover:bg-gizila-radial' }}" :class="isSidebarOpen ? '' : 'justify-center'">
+                            {{-- Ikon Kategori --}}
+                            <svg class="w-5 h-5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" /></svg>
+                            <span x-show="isSidebarOpen" x-transition class="whitespace-nowrap">Kategori Artikel</span>
+                        </a>
+                    </div>
+
                     <div class="pt-2">
                         {{-- PERUBAHAN DI SINI --}}
                          <a href="{{ route('admin.profile') }}" class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg {{ request()->routeIs('admin.profile') ? 'bg-gizila-radial dark:bg-gizila-dark-card text-gizila-dark dark:text-gizila-dark font-semibold' : 'text-black dark:text-black hover:bg-gizila-dark dark:hover:bg-gizila-radial' }}" :class="isSidebarOpen ? '' : 'justify-center'">
@@ -120,5 +131,6 @@
             </main>
         </div>
     </div>
+    @stack('scripts')
 </body>
 </html>

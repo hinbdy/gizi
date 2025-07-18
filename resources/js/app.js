@@ -6,11 +6,12 @@ import Flickity from 'flickity';
 import 'flickity/css/flickity.css'; // Import juga CSS-nya
 import Alpine from 'alpinejs';
 import persist from '@alpinejs/persist'; 
+import intersect from '@alpinejs/intersect';
 
 Alpine.plugin(persist);
 window.Alpine = Alpine;
 Alpine.start();
-
+Alpine.plugin(intersect); 
 // 3. Kita bungkus semua logika inisialisasi Anda ke dalam satu fungsi
 function initializePlugins() {
 

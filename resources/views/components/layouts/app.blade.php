@@ -2,8 +2,8 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ $title ?? 'Gizila' }}</title>
   
   {{-- Google Fonts (Tetap) --}}
@@ -41,7 +41,7 @@
   {{-- --- BAGIAN SCRIPT DI BAWAH INI DIRAPIKAN --- --}}
   {{-- Hanya @livewireScripts yang perlu ada di sini sebelum body ditutup.
        Semua script lain akan dikelola oleh app.js yang dipanggil Vite di <head>. --}}
-  <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
+  {{-- <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script> --}}
   @stack('scripts')
   @livewireScripts
 </body>

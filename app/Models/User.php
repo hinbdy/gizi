@@ -45,10 +45,6 @@ class User extends Authenticatable
         ];
     }
     
-    // ===================================================================
-    // KODE WAJIB: METHOD ACCESSOR UNTUK FOTO PROFIL
-    // ===================================================================
-    
     public function getProfilePhotoUrlAttribute()
     {
         // DIUBAH: Hapus `file_exists()` yang lambat.

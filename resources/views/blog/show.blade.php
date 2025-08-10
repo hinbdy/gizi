@@ -114,16 +114,10 @@
 </div>
 @endif
                     
-                    {{-- KOLOM KOMENTAR (BARU) --}}
-                    <div id="komentar" class="mt-16">
-                        <h3 class="text-2xl font-bold text-gray-800 mb-6 border-l-4 border-green-600 pl-4">Diskusi & Tanggapan</h3>
-                        <div class="bg-gray-50 p-8 rounded-lg text-center text-gray-500 border">
-                            <p>Fitur komentar akan segera hadir di sini!</p>
-                        </div>
-                    </div>
+                    @livewire('article-comments', ['article' => $article])
 
                 </div>
-
+                
                 {{-- --- KOLOM SIDEBAR (KANAN) --- --}}
                 <aside class="lg:col-span-1 space-y-10 lg:sticky lg:top-24 self-start">
                     
@@ -132,7 +126,7 @@
                         <form action="{{ route('blog.index') }}" method="GET">
                             <label for="search-sidebar" class="font-semibold text-gray-700 mb-2 block">Cari Artikel</label>
                             <div class="relative">
-                                <input type="text" id="search-sidebar" name="search" placeholder="Ketik di sini..." class="w-full rounded-md border-gray-300 pr-10 focus:ring-green-500 focus:border-green-500">
+                                <input type="text" id="search-sidebar" name="search" placeholder="Ketik di sini..." class="w-full rounded-md px-3 py-2 border-gray-300 pr-10 focus:ring-green-500 focus:border-green-500">
                                 <button type="submit" class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-400 hover:text-green-700">
                                     <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" /></svg>
                                 </button>

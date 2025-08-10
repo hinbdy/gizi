@@ -52,4 +52,9 @@ class Article extends Model
     // Generate slug dari title
     $this->attributes['slug'] = Str::slug($value);
     }
+
+    public function comments()
+{
+    return $this->hasMany(Comment::class);
+}
 }

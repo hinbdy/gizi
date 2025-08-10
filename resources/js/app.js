@@ -7,6 +7,8 @@ import 'flickity/css/flickity.css'; // Import juga CSS-nya
 import Alpine from 'alpinejs';
 import persist from '@alpinejs/persist'; 
 import intersect from '@alpinejs/intersect';
+import TomSelect from 'tom-select';
+window.TomSelect = TomSelect; 
 
 Alpine.plugin(persist);
 window.Alpine = Alpine;

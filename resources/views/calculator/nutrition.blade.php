@@ -98,7 +98,6 @@
                                     <select
                                         :name="`meals[{{ $sesi['key'] }}][${index}][food_id]`"
                                         x-init="initTomSelect($el, item)" {{-- <-- INI BAGIAN PENTINGNYA --}}
-                                       
                                         required>
                                         <option value="">-- Pilih atau ketik --</option>
                                         @foreach($foods as $food)
@@ -161,6 +160,45 @@
                                             <p class="text-4xl font-bold text-gray-800 mt-2">{{ round($intake['calories']) }} <span class="text-xl">kkal</span></p>
                                         </div>
                                     </div>
+                                    <div class="mt-6 pt-6 border-t border-gray-200 text-center">
+                                        @php
+                                            // Mengambil dan membulatkan nilai kalori
+                                            $rekomendasi = round($recommendations['calories']);
+                                            $asupan = round($intake['calories']);
+                                            
+                                            // Menghitung selisih antara rekomendasi dan asupan
+                                            $selisih = abs($rekomendasi - $asupan);
+
+                                            // Menentukan status gizi (Kurang, Cukup, atau Berlebih)
+                                            $status = '';
+                                            if ($asupan < $rekomendasi * 0.9) { // Kurang dari 90% kebutuhan
+                                                $status = 'Kurang';
+                                            } elseif ($asupan > $rekomendasi * 1.1) { // Lebih dari 110% kebutuhan
+                                                $status = 'Berlebih';
+                                            } else {
+                                                $status = 'Cukup';
+                                            }
+                                        @endphp
+
+                                        @if ($status === 'Kurang')
+                                            <h3 class="text-xl font-bold text-orange-500">Asupan Kalori Kamu Kurang</h3>
+                                            <p class="mt-2 text-gray-600 text-center">
+                                                Kebutuhan kalori harianmu adalah <strong>{{ $rekomendasi }} kkal</strong>.
+                                                Maka, kamu perlu <strong>menambah sekitar {{ $selisih }} kkal</strong> lagi untuk mencukupi kebutuhan gizi harian kamu.
+                                            </p>
+                                        @elseif ($status === 'Berlebih')
+                                            <h3 class="text-xl font-bold text-red-500">Asupan Kalori Kamu Berlebih</h3>
+                                            <p class="mt-2 text-gray-600 text-center">
+                                                Kebutuhan kalori harianmu adalah <strong>{{ $rekomendasi }} kkal</strong>.
+                                                Kamu <strong>melebihi sekitar {{ $selisih }} kkal</strong> dari kebutuhan gizi harian kamu.
+                                            </p>
+                                        @else
+                                            <h3 class="text-xl font-bold text-green-600">Asupan Kalori Kamu Sudah Cukup</h3>
+                                            <p class="mt-2 text-gray-600 text-center">
+                                                Kerja bagus! Asupan kalori kamu sudah <strong>sesuai dengan kebutuhan harianmu</strong>. Pertahankan pola makan seimbang ini!
+                                            </p>
+                                        @endif
+                                    </div>
                                 </div>
 
                                 <div class="bg-white p-8 rounded-xl shadow-lg mb-8 border border-gray-200">
@@ -180,6 +218,31 @@
                                             <div class="w-full bg-gray-200 rounded-full h-4">
                                                 <div class="bg-green-500 h-4 rounded-full" style="width: {{ $percentage }}%"></div>
                                             </div>
+                                            <p class="text-sm text-gray-500 mt-2">
+                                            @php
+                                                // Mengambil nilai rekomendasi dan asupan
+                                                $rekomendasiMakro = round($recommendations[$key]);
+                                                $asupanMakro = round($intake[$key]);
+
+                                                // Menentukan status (Kurang, Cukup, atau Berlebih)
+                                                $statusMakro = '';
+                                                if ($asupanMakro < $rekomendasiMakro * 0.9) { // Kurang dari 90%
+                                                    $statusMakro = 'Kurang';
+                                                } elseif ($asupanMakro > $rekomendasiMakro * 1.1) { // Lebih dari 110%
+                                                    $statusMakro = 'Berlebih';
+                                                } else {
+                                                    $statusMakro = 'Cukup';
+                                                }
+                                            @endphp
+
+                                            @if ($statusMakro === 'Kurang')
+                                                Asupan <strong>{{ $name }}</strong> Anda masih kurang dari yang direkomendasikan. Tingkatkan konsumsi makanan sumber {{ strtolower($name) }} untuk mencapai target.
+                                            @elseif ($statusMakro === 'Berlebih')
+                                                Asupan <strong>{{ $name }}</strong> Anda melebihi dari yang direkomendasikan. Pertimbangkan untuk mengurangi porsi makanan sumber {{ strtolower($name) }}.
+                                            @else
+                                                Asupan <strong>{{ $name }}</strong> Anda sudah baik dan seimbang dengan kebutuhan. Pertahankan!
+                                            @endif
+                                        </p>
                                         </div>
                                         @endforeach
                                     </div>
@@ -328,31 +391,36 @@
                     
                     initTomSelect(element, currentItem) {
                     const self = this;
-                    new TomSelect(element, {
+                    if (element.tomselect) {
+                        element.tomselect.destroy();
+                    }
+                    // Buat instance baru TomSelect
+                    let tom = new TomSelect(element, {
+                        options: self.foods.map(food => ({ value: food.id, text: food.name })),
                         create: false,
                         sortField: { field: "text", direction: "asc" },
+                        placeholder: '-- Pilih atau ketik --',
                         onChange: function(value) {
                             currentItem.food_id = value;
                             self.updateImagePreview(currentItem);
                         }
                     });
-                
-                    const selectedValue = element.value;
-                        if (selectedValue) {
-                            currentItem.food_id = selectedValue;
-                            this.updateImagePreview(currentItem);
-                        }
-                    },
-                
+                },
+                   // Fungsi untuk update gambar pratinjau
                     updateImagePreview(currentItem) {
                         if (!currentItem.food_id) {
                             currentItem.imagePreview = '{{ asset('assets/images/placeholder-food.png') }}';
                             return;
                         }
-                        let selectedFood = this.foods.find(f => f.id == currentItem.food_id);
+                        // Mencari data makanan lengkap berdasarkan ID yang dipilih
+                        // let selectedFood = this.foods.find(f => f.id == currentItem.food_id);
+
+                        // Jika makanan ditemukan DAN punya URL gambar
                         if (selectedFood && selectedFood.image_url) {
+                            // Tampilkan gambarnya
                             currentItem.imagePreview = selectedFood.image_url;
                         } else {
+                            // Jika tidak, tampilkan placeholder
                             currentItem.imagePreview = '{{ asset('assets/images/placeholder-food.png') }}';
                         }
                     },

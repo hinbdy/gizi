@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Food; 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 class CalculatorController extends Controller
     {
         public function calculateBMI(Request $request)
@@ -141,8 +142,23 @@ class CalculatorController extends Controller
 
         
 
-
-
+    public function showNutritionCalculator()
+    {
+        if (!str_contains(URL::previous(), '/kalkulator-massa-tubuh/hitung') && !session()->has('from_validation')) {
+            session()->forget(['bmiData', 'bmi', 'bmr']);
+        }
+       $foods = Food::select('id', 'name', 'image_url')
+                     ->orderBy('name', 'asc')
+                     ->get();
+         $bmiData = session('bmiData', []); 
+        
+        // 2. Kirim data ke view
+        return view('calculator.nutrition', [
+            'title' => 'Kalkulator Gizi Harian',
+            'foods' => $foods,
+            'bmiData' => $bmiData
+        ]);
+    }
     public function calculateNutrition(Request $request)
     {
         // pastikan BMI sudah dihitung
@@ -150,8 +166,7 @@ class CalculatorController extends Controller
             return redirect('/kalkulator-massa-tubuh')->with('warning', 'Silakan hitung BMI terlebih dahulu.');
         }
 
-        // Aturan validasi yang ketat
-        $request->validate([
+         $validator = Validator::make($request->all(), [
             'meals' => 'required|array',
             'meals.*.*.food_id' => 'required|exists:foods,id',
             'meals.*.*.weight' => 'required|numeric|min:1',
@@ -163,6 +178,13 @@ class CalculatorController extends Controller
             'meals.*.*.weight.numeric' => 'Porsi (gram) harus berupa angka.',
             'meals.*.*.weight.min' => 'Porsi (gram) minimal adalah 1.',
         ]);
+        if ($validator->fails()) {
+            // Redirect kembali dengan error DAN KIRIM SINYAL 'from_validation'
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput()
+                ->with('from_validation', true); // <-- INI SINYAL PENTINGNYA
+        }
 
         $bmr = session('bmr');
 
@@ -215,6 +237,8 @@ class CalculatorController extends Controller
             'recommendations' => $recommendations,
             'menuRecommendations' => $menuRecommendations,
             'faq' => $faq,
+            'foods' => Food::orderBy('name', 'asc')->get(),
+            'bmiData' => session('bmiData', [])
         ];
 
         $data['bmiData'] = session()->only([
@@ -222,17 +246,6 @@ class CalculatorController extends Controller
         'idealImage', 'bmr', 'berat', 'tinggi', 'beratIdeal', 'selisihBerat'
     ]);
 
-        $data['foods'] = Food::select(
-                        DB::raw('MIN(id) as id'),
-                        'name',
-                        DB::raw('MIN(calories) as calories'),
-                        'image_url'
-                    )
-                    ->groupBy('name', 'image_url')
-                    ->orderBy('name', 'asc')
-                    ->get();
-
-        
         return view('calculator.nutrition', $data)->with('scroll', true);
     }
 
@@ -256,26 +269,5 @@ class CalculatorController extends Controller
             $recommendations[$mealName] = $foods;
         }
         return $recommendations;
-    }
-
-     public function showNutritionCalculator()
-    {
-        // 1. Ambil data makanan dari database (logika dari route lama Anda)
-       $foods = Food::select(
-    DB::raw('MIN(id) as id'),
-    'name',
-    'image_url',
-    DB::raw('MIN(calories) as calories')
-)
-->groupBy('name', 'image_url')
-->orderBy('name', 'asc')
-->get();
-
-        
-        // 2. Kirim data ke view
-        return view('calculator.nutrition', [
-            'title' => 'Kalkulator Gizi Harian',
-            'foods' => $foods
-        ]);
     }
 }

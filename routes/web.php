@@ -119,9 +119,9 @@ Route::get('/kalkulator-gizi-harian', function () {
     // 2. Jika pengguna TIDAK datang dari halaman hasil BMI, maka kita anggap
     //    ini adalah kunjungan baru atau refresh. Hapus sesi BMI.
     //    Ganti 'gizila.test' dengan URL lokal Anda jika berbeda.
-    if (!str_contains($previousUrl, '/kalkulator-massa-tubuh/hitung')) {
-        session()->forget(['bmi', 'bmr']);
-    }
+    // if (!str_contains($previousUrl, '/kalkulator-massa-tubuh/hitung')) {
+    //     session()->forget(['bmi', 'bmr']);
+    // }
     
     // 3. Lanjutkan dengan kode Anda yang sudah ada untuk mengambil data makanan
     $foods = Food::select(

@@ -9,8 +9,8 @@
                         <span class="absolute bottom-[-15px] left-0 h-1.5 w-full origin-left scale-x-0 transform bg-gizila-dark transition-transform duration-500 ease-in-out animate-draw-line"></span>
                     </span>
                 </h1>
-                <p class="text-gray-600 text-lg max-w-3xl mx-auto mt-6">
-                    Gizila adalah platform edukasi dan kalkulasi gizi harian yang membantu masyarakat menjaga pola makan seimbang dengan fitur praktis dan modern.
+                <p class="text-gray-600 text-lg mt-10 text-justify">
+                    Gizila merupakan sebuah media informasi yang masih tahap berkembang dibawah naungan PT. Graisena Usaha Nusantara (GUNTARA) yang bergerak dibidang creative agency. Gizila memberikan berita informasi mengenai asupan gizi harian dengan fokus pada edukasi gizi seimbang dan gaya hidup sehat berbasis bukti referensi artikel ilmiah dan ada sumber dari ahli gizi yaitu Indah Puji Lestari S.Gz. yang berperan sebagai talent dengan menyampaikan edukasi tentang kesehatan dan asupan gizi seimbang melalui berbagai konten edukatif di platform digital, khususnya Instagram, TikTok, (@gizila.id). Platform website Gizila memberikan edukasi dan kalkulasi gizi harian yang membantu masyarakat menjaga pola makan seimbang dengan fitur praktis dan modern.
                 </p>
             </div>
 
@@ -18,56 +18,58 @@
             <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
 
                 {{-- Kolom Kiri: Visi, Misi, Kontak --}}
-                <div class="lg:col-span-3 flex flex-col gap-8">
+                <div class="lg:col-span-10 flex flex-col gap-8">
                     
-                     <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
-                        <h2 class="text-2xl font-bold text-gray-800 mb-3">Visi Kami</h2>
-                        <p class="text-gray-600 leading-relaxed">
-                            Menjadi sumber inspirasi dan edukasi gizi serta kesehatan terpercaya di media sosial yang mengajak masyarakat hidup lebih sehat, cerdas, dan bahagia, melalui konten yang mudah dipahami, aplikatif, dan menyenangkan.
+                     <div class="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition-shadow duration-300">
+                        <h2 class="text-3xl font-bold text-gray-800 mb-5 text-center">Visi Kami</h2>
+                        <hr class="my-6">
+                        <p class="text-gray-600 leading-relaxed text-center">
+                            Menjadi sumber inspirasi dan edukasi gizi serta kesehatan terpercaya di media sosial yang mengajak masyarakat hidup lebih sehat, cerdas, dan bahagia, melalui konten yang mudah dipahami, aplikatif, dan menyenangkan.                           
                         </p>
                     </div>
 
-                    <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
-                        <h2 class="text-2xl font-bold text-gray-800 mb-4">Misi Kami</h2>
-                        <ul class="space-y-4">
+                    <div class="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition-shadow duration-300">
+                        <h2 class="text-3xl font-bold text-gray-800 mb-5 text-center">Misi Kami</h2>
+                        <hr class="my-8">
+                         <ul class="space-y-8 divide-y divide-gray-200">
                             {{-- Misi 1 --}}
-                            <li class="flex items-start gap-3">
-                                <svg class="w-6 h-6 text-gizila-dark flex-shrink-0 mt-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
+                             <li class="flex items-start gap-5 pt-8 first:pt-0">
+                                <svg class="w-7 h-7 text-gizila-dark flex-shrink-0 mt-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
                                 <div>
-                                    <h3 class="font-semibold text-gray-700">Memberikan Edukasi Gizi yang Tepat & Terpercaya</h3>
-                                    <p class="text-gray-600 text-sm">Menyampaikan informasi gizi dan kesehatan berdasarkan ilmu yang valid, dibungkus dengan bahasa yang ringan dan mudah dipahami semua kalangan.</p>
+                                    <h3 class="font-semibold text-2xl text-gray-700">Memberikan Edukasi Gizi yang Tepat & Terpercaya</h3>
+                                    <p class="text-gray-600 leading-relaxed pt-1">Menyampaikan informasi gizi dan kesehatan berdasarkan ilmu yang valid, dibungkus dengan bahasa yang ringan dan mudah dipahami semua kalangan.</p> 
                                 </div>
                             </li>
                              {{-- Misi 2 --}}
-                            <li class="flex items-start gap-3">
-                                <svg class="w-6 h-6 text-gizila-dark flex-shrink-0 mt-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
+                            <li class="flex items-start gap-5 pt-8 first:pt-0">
+                                <svg class="w-7 h-7 text-gizila-dark flex-shrink-0 mt-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
                                 <div>
-                                    <h3 class="font-semibold text-gray-700">Membentuk Kebiasaan Hidup Sehat</h3>
-                                    <p class="text-gray-600 text-sm">Mendorong masyarakat untuk mempraktikkan pola makan seimbang, cukup minum air, olahraga teratur, dan menjaga kesehatan mental.</p>
+                                    <h3 class="font-semibold text-2xl text-gray-700">Membentuk Kebiasaan Hidup Sehat</h3>
+                                    <p class="text-gray-600 leading-relaxed pt-1">Mendorong masyarakat untuk mempraktikkan pola makan seimbang, cukup minum air, olahraga teratur, dan menjaga kesehatan mental.</p>
                                 </div>
                             </li>
                              {{-- Misi 3 --}}
-                            <li class="flex items-start gap-3">
-                               <svg class="w-6 h-6 text-gizila-dark flex-shrink-0 mt-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
+                            <li class="flex items-start gap-5 pt-8 first:pt-0">
+                               <svg class="w-7 h-7 text-gizila-dark flex-shrink-0 mt-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
                                 <div>
-                                    <h3 class="font-semibold text-gray-700">Menginspirasi Melalui Konten Kreatif</h3>
-                                    <p class="text-gray-600 text-sm">Menghadirkan tips, infografis, dan ide sehat yang relevan dengan tren, sehingga audiens termotivasi untuk mencintai gaya hidup sehat.</p>
+                                    <h3 class="font-semibold text-2xl text-gray-700">Menginspirasi Melalui Konten Kreatif</h3>
+                                    <p class="text-gray-600 leading-relaxed pt-1">Menghadirkan tips, infografis, dan ide sehat yang relevan dengan tren, sehingga audiens termotivasi untuk mencintai gaya hidup sehat.</p>
                                 </div>
                             </li>
                              {{-- Misi 4 --}}
-                            <li class="flex items-start gap-3">
-                                <svg class="w-6 h-6 text-gizila-dark flex-shrink-0 mt-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
+                            <li class="flex items-start gap-5 pt-8 first:pt-0">
+                                <svg class="w-7 h-7 text-gizila-dark flex-shrink-0 mt-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
                                 <div>
-                                    <h3 class="font-semibold text-gray-700">Menjadi Komunitas Positif</h3>
-                                    <p class="text-gray-600 text-sm">Membuat ruang interaksi yang ramah dan suportif, tempat berbagi pengalaman dan saling memotivasi untuk menjaga kesehatan.</p>
+                                    <h3 class="font-semibold text-2xl text-gray-700">Menjadi Komunitas Positif</h3>
+                                    <p class="text-gray-600 leading-relaxed pt-1">Membuat ruang interaksi yang ramah dan suportif, tempat berbagi pengalaman dan saling memotivasi untuk menjaga kesehatan.</p>
                                 </div>
                             </li>
                              {{-- Misi 5 --}}
-                            <li class="flex items-start gap-3">
-                               <svg class="w-6 h-6 text-gizila-dark flex-shrink-0 mt-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
+                           <li class="flex items-start gap-5 pt-8 first:pt-0">
+                               <svg class="w-7 h-7 text-gizila-dark flex-shrink-0 mt-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
                                 <div>
-                                    <h3 class="font-semibold text-gray-700">Mengedepankan Kesehatan yang Menyeluruh</h3>
-                                    <p class="text-gray-600 text-sm">Tidak hanya fokus pada nutrisi, tapi juga aktivitas fisik, istirahat, hidrasi, dan kesehatan mental, demi keseimbangan hidup.</p>
+                                    <h3 class="font-semibold text-2xl text-gray-700">Mengedepankan Kesehatan yang Menyeluruh</h3>
+                                    <p class="text-gray-600 leading-relaxed pt-1">Tidak hanya fokus pada nutrisi, tapi juga aktivitas fisik, istirahat, hidrasi, dan kesehatan mental, demi keseimbangan hidup.</p>
                                 </div>
                             </li>
                         </ul>
@@ -75,8 +77,10 @@
                 </div>
 
                 {{-- Kolom Kanan: Kontak & Peta --}}
-                <div class="lg:col-span-2 flex flex-col gap-8">
+                <div class="lg:col-span-10 flex flex-col gap-8">
                     <div class="bg-white rounded-xl shadow-lg p-4 hover:shadow-xl transition-shadow duration-300">
+                        <h2 class="text-3xl font-bold text-gray-800 mb-4 text-center">Lokasi</h2>
+                        <hr class="my-6">
                         <div class="w-full h-80 rounded-lg overflow-hidden border border-gray-200">
                             <iframe 
                                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3965.043513337911!2d106.77977707474966!3d-6.38814039360155!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69e93345161041%3A0x673d63b2cb612a4f!2sPT%20Graisena%20Usaha%20Nusantara!5e0!3m2!1sid!2sid!4v1723261623190!5m2!1sid!2sid"
@@ -91,7 +95,8 @@
                     </div>
                     
                     <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
-                        <h2 class="text-2xl font-bold text-gray-800 mb-4">Hubungi Kami</h2>
+                        <h2 class="text-3xl font-bold text-gray-800 mb-4">Hubungi Kami</h2>
+                        <hr class="my-6">
                         <div class="space-y-1">
                             <a href="https://maps.app.goo.gl/35vFwB26rA7j3pXF7" target="_blank" class="flex items-center gap-3 group">
                                 <svg class="w-5 h-5 text-gray-500 group-hover:text-gizila-dark transition" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" /></svg>
@@ -107,7 +112,8 @@
                             </a>
                         </div>
                         <hr class="my-6">
-                        <h3 class="text-xl font-bold text-gray-800 mb-4">Temukan Kami di</h3>
+                        <h3 class="text-3xl font-bold text-gray-800 mb-4">Temukan Kami</h3>
+                        <hr class="my-6">
                         {{-- Ikon Sosial Media --}}
                         <div class="flex items-center gap-4">
                             {{-- Instagram --}}

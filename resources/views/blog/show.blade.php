@@ -80,44 +80,43 @@
                     </div>
 
         {{-- Ganti blok "Artikel Terkait" Anda dengan kode di bawah ini --}}
-@if ($relatedArticles->count())
-<div>
-    <div class="mt-12 border-t pt-8">
-        <h3 class="text-lg font-semibold text-gray-700 mb-4">Artikel terkait:</h3>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            @foreach ($relatedArticles as $related)
-                {{-- 1. Tambahkan `group` untuk mengaktifkan efek hover pada elemen turunan --}}
-                <div class="group bg-white rounded-xl shadow transition-all duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1">
-                    {{-- 2. Tambahkan `overflow-hidden` agar efek zoom gambar tidak keluar dari kotak --}}
-                    <div class="overflow-hidden rounded-t-xl">
-                        <a href="{{ route('blog.show', $related->slug) }}">
-                            {{-- 3. Tambahkan class transisi & `group-hover:scale-110` untuk efek zoom --}}
-                            <img src="{{ $related->thumbnail ? asset('storage/' . $related->thumbnail) : 'https://via.placeholder.com/400x250.png/EBF5EE/344054?text=Gizila' }}"
-                                 alt="{{ $related->title }}"
-                                 class="w-full h-40 object-cover transition-transform duration-500 group-hover:scale-110">
-                        </a>
-                    </div>
-                    <div class="p-4">
-                        {{-- 4. Ubah `span` kategori menjadi `a` (link) --}}
-                        <a href="{{ route('category.show', $related->category->slug ?? 'umum') }}" class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full font-semibold hover:bg-green-200 transition-colors">
-                            {{ $related->category->name ?? 'Umum' }}
-                        </a>
-                        <a href="{{ route('blog.show', $related->slug) }}"
-                           class="block mt-2 font-semibold text-gray-800 line-clamp-2 group-hover:text-green-700 transition-colors">
-                            {{ $related->title }}
-                        </a>
+                @if ($relatedArticles->count())
+                <div>
+                    <div class="mt-12 border-t pt-8">
+                        <h3 class="text-lg font-semibold text-gray-700 mb-4">Artikel terkait:</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            @foreach ($relatedArticles as $related)
+                                {{-- 1. Tambahkan `group` untuk mengaktifkan efek hover pada elemen turunan --}}
+                                <div class="group bg-white rounded-xl shadow transition-all duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1">
+                                    {{-- 2. Tambahkan `overflow-hidden` agar efek zoom gambar tidak keluar dari kotak --}}
+                                    <div class="overflow-hidden rounded-t-xl">
+                                        <a href="{{ route('blog.show', $related->slug) }}">
+                                            {{-- 3. Tambahkan class transisi & `group-hover:scale-110` untuk efek zoom --}}
+                                            <img src="{{ $related->thumbnail ? asset('storage/' . $related->thumbnail) : 'https://via.placeholder.com/400x250.png/EBF5EE/344054?text=Gizila' }}"
+                                                alt="{{ $related->title }}"
+                                                class="w-full h-40 object-cover transition-transform duration-500 group-hover:scale-110">
+                                        </a>
+                                    </div>
+                                    <div class="p-4">
+                                        {{-- 4. Ubah `span` kategori menjadi `a` (link) --}}
+                                        <a href="{{ route('category.show', $related->category->slug ?? 'umum') }}" class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full font-semibold hover:bg-green-200 transition-colors">
+                                            {{ $related->category->name ?? 'Umum' }}
+                                        </a>
+                                        <a href="{{ route('blog.show', $related->slug) }}"
+                                        class="block mt-2 font-semibold text-gray-800 line-clamp-2 group-hover:text-green-700 transition-colors">
+                                            {{ $related->title }}
+                                        </a>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
                 </div>
-            @endforeach
-        </div>
-    </div>
-</div>
-@endif
-                    
+                @endif          
                     @livewire('article-comments', ['article' => $article])
 
                 </div>
-                
+                </div>
                 {{-- --- KOLOM SIDEBAR (KANAN) --- --}}
                 <aside class="lg:col-span-1 space-y-10 lg:sticky lg:top-24 self-start">
                     

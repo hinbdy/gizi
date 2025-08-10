@@ -8,19 +8,18 @@ class CalculatorController extends Controller
     {
         public function calculateBMI(Request $request)
         {
-            $request->validate([
-                'berat' => 'required|numeric|min:1|max:300',
-                'tinggi' => 'required|numeric|min:1|max:300',
-                'usia' => 'required|numeric|min:1|max:150',
-                'jenis_kelamin' => 'required|in:male,female',
-                'aktivitas' => 'required|in:sangat-ringan,ringan,sedang,berat',
-            ]);
-
-            $berat = $request->input('berat');
-            $tinggi = $request->input('tinggi');
-            $usia = $request->input('usia');
-            $jenisKelamin = $request->input('jenis_kelamin');
-            $aktivitas = $request->input('aktivitas');
+             $validatedData = $request->validate([
+            'berat'         => 'required|numeric|min:20|max:300',      // Berat: minimal 20kg
+            'tinggi'        => 'required|numeric|min:100|max:250',     // Tinggi: minimal 100cm
+            'usia'          => 'required|numeric|min:5|max:120',       // Usia: minimal 5 tahun
+            'jenis_kelamin' => 'required|in:male,female',
+            'aktivitas'     => 'required|in:sangat-ringan,ringan,sedang,berat',
+        ]);
+            $berat = $validatedData['berat'];
+            $tinggi = $validatedData['tinggi'];
+            $usia = $validatedData['usia'];
+            $jenisKelamin = $validatedData['jenis_kelamin'];
+            $aktivitas = $validatedData['aktivitas'];
 
             // Hitung BMI
             $tinggiMeter = $tinggi / 100;
@@ -63,7 +62,7 @@ class CalculatorController extends Controller
             ],
         ];
 
-            $kaloriHarian = round($bmr * $faktorAktivitas[$jenisKelamin][$aktivitas]);
+        $kaloriHarian = round($bmr * $faktorAktivitas[$jenisKelamin][$aktivitas]);
 
             // Link gambar kategori IMT
         $imtImages = [
@@ -218,15 +217,24 @@ class CalculatorController extends Controller
             'faq' => $faq,
         ];
 
-        $data['foods'] = Food::select('id', 'name', 'calories', 'image_url')
-                         ->orderBy('name', 'asc')
-                         ->get();
+        $data['bmiData'] = session()->only([
+        'bmi', 'kategoriIMT', 'kategoriBB', 'bbImage', 'imtImage',
+        'idealImage', 'bmr', 'berat', 'tinggi', 'beratIdeal', 'selisihBerat'
+    ]);
+
+        $data['foods'] = Food::select(
+                        DB::raw('MIN(id) as id'),
+                        'name',
+                        DB::raw('MIN(calories) as calories'),
+                        'image_url'
+                    )
+                    ->groupBy('name', 'image_url')
+                    ->orderBy('name', 'asc')
+                    ->get();
+
         
         return view('calculator.nutrition', $data)->with('scroll', true);
     }
-
-
-
 
     private function _generateMenuRecommendations($bmr)
     {
@@ -248,5 +256,26 @@ class CalculatorController extends Controller
             $recommendations[$mealName] = $foods;
         }
         return $recommendations;
+    }
+
+     public function showNutritionCalculator()
+    {
+        // 1. Ambil data makanan dari database (logika dari route lama Anda)
+       $foods = Food::select(
+    DB::raw('MIN(id) as id'),
+    'name',
+    'image_url',
+    DB::raw('MIN(calories) as calories')
+)
+->groupBy('name', 'image_url')
+->orderBy('name', 'asc')
+->get();
+
+        
+        // 2. Kirim data ke view
+        return view('calculator.nutrition', [
+            'title' => 'Kalkulator Gizi Harian',
+            'foods' => $foods
+        ]);
     }
 }

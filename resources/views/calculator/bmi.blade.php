@@ -19,6 +19,10 @@
               id="berat"
               value="{{ old('berat', $berat ?? '') }}"
               class="w-full px-4 py-2 rounded-lg bg-[#fef5ee]" required>
+              {{-- TAMBAHKAN PESAN ERROR --}}
+                        @error('berat')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
           </div>
 
           {{-- Tinggi Badan --}}
@@ -30,6 +34,10 @@
               id="tinggi"
               value="{{ old('tinggi', $tinggi ?? '') }}"
               class="w-full px-4 py-2 rounded-lg bg-[#fef5ee]" required>
+               {{-- TAMBAHKAN PESAN ERROR --}}
+                        @error('tinggi')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
           </div>
         </div>
 
@@ -43,6 +51,10 @@
               id="usia"
               value="{{ old('usia', $usia ?? '') }}"
               class="w-full px-4 py-2 rounded-lg bg-[#fef5ee]" required>
+               {{-- TAMBAHKAN PESAN ERROR --}}
+                        @error('usia')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
           </div>
          {{-- Jenis Kelamin --}}
           <div>
@@ -67,6 +79,10 @@
                     </div>
                 </label>
             </div>
+             {{-- TAMBAHKAN PESAN ERROR --}}
+                        @error('jenis_kelamin')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
           </div>
         </div>
 
@@ -112,7 +128,12 @@
               </label>
             @endforeach
           </div>
+          {{-- TAMBAHKAN PESAN ERROR --}}
+                    @error('aktivitas')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
         </div>
+        {{-- Submit --}}
         <div class="text-center mt-6">
           <button type="submit"
             class="px-6 py-3 bg-green-700 text-white rounded-full font-semibold hover:bg-green-800 transition">
@@ -165,6 +186,14 @@
     </p>
   </div>
 </div>
+ <div class="text-center mt-6">
+           <a href="{{ url('/kalkulator-gizi-harian') }}#form-gizi-harian">
+          <button type="submit"
+            class="px-6 py-3 bg-green-700 text-white rounded-full font-semibold hover:bg-green-800 transition">
+            Hitung Gizi Harian Kamu
+          </button>
+        </a>
+        </div>
 {{-- ==   KODE TAMBAHAN UNTUK DISCLAIMER DAN FAQ (BARU)   == --}}
 <div class="mt-12 grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
 
@@ -211,11 +240,9 @@
                    <p>Rumus Harris-Benedict adalah salah satu metode yang digunakan untuk mengestimasi tingkat metabolisme basal (BMR) seseorang, yaitu jumlah kalori yang dibakar tubuh saat istirahat total. Hasil BMR ini kemudian dikalikan dengan tingkat aktivitas fisik untuk mendapatkan estimasi total kebutuhan kalori harian (TDEE) Anda, seperti yang ditampilkan pada hasil perhitungan di atas.</p>
                 </div>
             </div>
-
          </div>
     </div>
 </div>
-
 @endisset
 
 {{-- 3) Script JavaScript --}}
@@ -238,7 +265,7 @@
     <h2 class="text-2xl font-semibold mb-4 text-green-700">Lanjut ke Kalkulator Gizi Harian?</h2>
     <p class="mb-6 text-green-700 font-semibold">Gunakan hasil BMI Anda untuk menghitung kebutuhan kalori harian.</p>
     <div class="flex justify-center gap-4">
-      <a href="{{ url('/kalkulator-gizi-harian') }}"
+      <a href="{{ url('/kalkulator-gizi-harian') }}#form-gizi-harian"
          class="px-5 py-3 font-semibold rounded-lg border border-gizila-dark text-green-700 hover:bg-[#027527] hover:text-white transition">
         Lanjut Hitung Gizi Harian
       </a>

@@ -3,14 +3,15 @@
 
         {{-- Judul Halaman (Tidak diubah) --}}
         <div class="mx-auto max-w-2xl text-center">
-           <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-                <span class="relative inline-block">
-                    Artikel Edukasi Gizila
-                    <span class="absolute bottom-0 left-0 h-1.5 w-full origin-left scale-x-0 transform bg-green-600 transition-transform duration-500 ease-in-out animate-draw-line"></span>
-                </span>
+             <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+             <span class="relative inline-block">
+                Artikel Edukasi <span class="text-gizila-dark">Gizila</span>
+            <span class="absolute bottom-[-8px] left-0 h-1.5 w-full origin-left scale-x-0 transform bg-gizila-dark transition-transform duration-500 ease-in-out animate-draw-line"></span>
+             </span>
             </h2>
+
             <p class="mt-2 text-lg leading-8 text-gray-600">
-                Jelajahi Artikel Gizila Sekarang!
+                Jelajahi artikel Gizila sekarang!
             </p>
         </div>
 
@@ -51,7 +52,7 @@
                     {{-- 1. Bungkus kartu dengan `div class="group"` untuk mengaktifkan efek hover turunan --}}
                     <div class="group"> 
                         {{-- 2. Tambahkan efek `hover:-translate-y-2` (efek timbul) pada <article> --}}
-                        <article wire:key="article-{{ $article->id }}" class="bg-white rounded-2xl shadow-md transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-2 h-full flex flex-col overflow-hidden" 
+                        <article wire:key="article-{{ $article->id }}" class="bg-[#d6f6e4] rounded-2xl shadow-md transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-2 h-full flex flex-col overflow-hidden" 
                                  :class="layout === 'list' ? 'md:flex-row gap-8 items-start' : ''">
                             
                             {{-- Kolom Gambar --}}
@@ -79,7 +80,7 @@
                                 </div>
      
                                 {{-- Area bawah kartu (penulis, views) --}}
-                                <div class="relative mt-6 flex w-full items-center justify-between text-sm text-gray-500 border-t border-gray-200 pt-4">
+                                <div class="relative mt-6 flex w-full items-center justify-between text-sm text-gray-500 border-t border-gray-400 pt-4">
                                     <div class="flex items-center gap-x-2">
                                         <img class="h-8 w-8 rounded-full object-cover" src="{{ $article->author->profile_photo_url }}" alt="{{ $article->author->name }}">
                                         <span>{{ $article->author->name ?? 'Admin' }}</span>

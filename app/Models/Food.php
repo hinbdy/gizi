@@ -12,5 +12,5 @@ class Food extends Model
     // Explicitly set the correct table name
     protected $table = 'foods';
 
-    protected $fillable = ['name', 'calories'];
+    protected $fillable = ['name', 'calories', 'image_url'];
 }

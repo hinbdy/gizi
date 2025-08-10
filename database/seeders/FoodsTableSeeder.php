@@ -301,6 +301,7 @@ class FoodsTableSeeder extends Seeder
         ];
 
         // Masukkan semua data ke dalam tabel 'foods'
+        
         DB::table('foods')->insert($foods);
     }
 }

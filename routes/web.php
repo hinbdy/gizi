@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB; 
+use Illuminate\Support\Facades\URL;
 use App\Http\Controllers\Auth\LoginController;
 // use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -13,7 +15,6 @@ use App\Models\Food;
 use App\Http\Controllers\Admin\AdminProfileController;
 use App\Models\Article;
 use App\Http\Controllers\CategoryController; 
-use Illuminate\Support\Facades\DB; 
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Middleware\IsAdminMiddleware;
 
@@ -23,7 +24,12 @@ use App\Http\Middleware\IsAdminMiddleware;
 
 // Halaman utama
 
+// TAMBAHKAN KODE INI UNTUK MENGALIHKAN DARI '/' KE '/home'
 Route::get('/', function () {
+    return redirect('/home');
+});
+
+Route::get('/home', function () {
     $articles = Article::where('published', true)
                        ->with('author', 'category') // INI WAJIB ADA
                        ->latest()
@@ -119,18 +125,26 @@ Route::get('/kalkulator-gizi-harian', function () {
     
     // 3. Lanjutkan dengan kode Anda yang sudah ada untuk mengambil data makanan
     $foods = Food::select(
-                    'name',
-                    DB::raw('MIN(id) as id'),
-                    DB::raw('MIN(calories) as calories')
+        'id',   
+                'name', 
+                'image_url', 
+                DB::raw('MIN(id) as id'),
+                DB::raw('MIN(calories) as calories')
                 )
-                 ->groupBy('name')
+                 ->groupBy('id', 'name', 'image_url')
                  ->orderBy('name', 'asc')
                  ->get();
+
+     $bmiData = session()->only([
+        'bmi', 'kategoriIMT', 'kategoriBB', 'bbImage', 'imtImage', 
+        'idealImage', 'bmr', 'berat', 'tinggi', 'beratIdeal', 'selisihBerat'
+    ]);
     
     // 4. Kirim data ke view
     return view('calculator.nutrition', [
         'title' => 'Kalkulator Gizi Harian',
-        'foods' => $foods
+        'foods' => $foods,
+        'bmiData' => $bmiData
     ]);
 })->name('nutrition.calculator');
 

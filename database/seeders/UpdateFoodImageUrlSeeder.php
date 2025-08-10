@@ -18,7 +18,6 @@ class UpdateFoodImageUrlSeeder extends Seeder
 
             // ✅ PERBAIKAN: Simpan path relatif terhadap folder 'storage/app/public'
             $food->image_url = 'foods/' . $filename;
-            
             $food->save();
         }
     }

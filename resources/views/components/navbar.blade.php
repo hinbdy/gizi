@@ -79,7 +79,7 @@
               <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
             </svg>
           </div>
-          <div class="dropdown-menu absolute left-0 top-[calc(100%+24px)] mt-1 min-w-[320px] max-w-[320px] flex flex-col gap-0 px-3 py-2 rounded-xl bg-gizila-radial shadow-lg border border-gray-200 z-50 opacity-0 invisible translate-y-2 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-300 ease-out">
+          <div class="dropdown-menu absolute left-0 top-[calc(100%+24px)] mt-1 min-w-max flex flex-col gap-0 px-3 py-2 rounded-xl bg-gizila-radial shadow-lg border border-gray-200 z-50 opacity-0 invisible translate-y-2 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-300 ease-out">
             @foreach ([ 
               ['icon' => 'imt.png', 'title' => 'Massa Tubuh', 'desc' => 'Hitung Indeks massa tubuh anda!', 'route' => route('bmi.calculator')], 
               ['icon' => 'kalkulator.png', 'title' => 'Gizi Harian', 'desc' => 'Hitung gizi harian anda!', 'route' => route('nutrition.calculator')], 

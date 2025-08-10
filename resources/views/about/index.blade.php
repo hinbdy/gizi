@@ -2,7 +2,12 @@
     <div class="pt-28 pb-16 min-h-screen bg-gizila-radial">
         <div class="container mx-auto px-4">
             <div class="text-center mb-12">
-                <h1 class="text-4xl font-bold text-green-800 mb-4">Tentang Gizila</h1>
+                <h1 class="text-4xl font-bold text-gray-900 mb-4">
+                    <span class="relative inline-block">
+                    Tentang <span class="text-gizila-dark">Gizila</span>
+                <span class="absolute bottom-[-8px] left-0 h-1.5 w-full origin-left scale-x-0 transform bg-gizila-dark transition-transform duration-500 ease-in-out animate-draw-line"></span>
+             </span>
+                </h1>
                 <p class="text-gray-700 text-lg max-w-3xl mx-auto">
                     Gizila adalah platform edukasi dan kalkulasi gizi harian yang membantu masyarakat menjaga pola makan seimbang dengan fitur praktis dan modern.
                 </p>
@@ -17,9 +22,9 @@
                     </p>
 
                     <h2 class="text-2xl font-semibold text-green-800 mb-3">Kontak Kami</h2>
-                    <p class="text-sm"><i class="fas fa-map-marker-alt mr-2"></i> Jl. Raya Keadilan No. A-17, Pancoran Mas, Depok 16434</p>
-                    <p class="text-sm"><i class="far fa-envelope mr-2"></i> <a href="mailto:ufhdynt@gmail.com">ufhdynt@gmail.com</a></p>
-                    <p class="text-sm"><i class="fab fa-whatsapp mr-2"></i> <a href="https://wa.me/6285776466269">+6285776466269</a></p>
+                    <p class="text-sm"><i class="fas fa-map-marker-alt mr-2"></i><a href="https://maps.app.goo.gl/zD7xQfXTLpFtUfMU7" class="hover:text-gizila-dark">Jl. Raya Keadilan No. A-17, Pancoran Mas, Depok 16434</p>
+                    <p class="text-sm"><i class="far fa-envelope mr-2"></i> <a href="mailto:ufhdynt@gmail.com"class="hover:text-gizila-dark">ufhdynt@gmail.com</a></p>
+                    <p class="text-sm"><i class="fab fa-whatsapp mr-2"></i> <a href="https://wa.me/6285776466269"class="hover:text-gizila-dark">+6285776466269</a></p>
                     {{-- Ikon Sosial Media --}}
                     <div class="flex gap-4 mt-4">
                         {{-- Instagram --}}

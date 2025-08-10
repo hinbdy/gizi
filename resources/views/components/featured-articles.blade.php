@@ -1,16 +1,14 @@
 <div class="bg-gizila-radial py-16 sm:py-24">
     <div class="mx-auto max-w-7xl px-6 lg:px-8">
-
         <div class="mx-auto max-w-2xl text-center">
              <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
              <span class="relative inline-block">
-                 Artikel Edukasi Gizila
+                 Artikel Edukasi <span class="text-gizila-dark">Gizila</span>
                  <span class="absolute bottom-[-8px] left-0 h-1.5 w-full origin-left scale-x-0 transform bg-gizila-dark transition-transform duration-500 ease-in-out animate-draw-line"></span>
              </span>
          </h2>
-            
             <p class="mt-2 text-lg leading-8 text-gray-600">
-                Dapatkan Informasi Terbaru dari Gizila.
+                Dapatkan informasi terbaru dari Gizila.
             </p>
         </div>
 
@@ -20,7 +18,7 @@
             @forelse ($articles as $article)
                 {{-- 2. Ganti `<article>` dengan `<div>` dan tambahkan class `group` --}}
                 <div class="group relative">
-                    <article class="flex h-full flex-col items-start justify-between rounded-2xl bg-white shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
+                    <article class="flex h-full flex-col items-start justify-between rounded-2xl bg-[#d6f6e4] shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
                         <div class="w-full">
                             {{-- 3. Tambahkan `overflow-hidden` pada pembungkus gambar untuk efek zoom yang rapi --}}
                             <div class="relative w-full overflow-hidden rounded-t-2xl">
@@ -59,7 +57,7 @@
                                         </a>
                                     </h3>
                                 </div>
-                                <div class="relative mt-8 flex items-center gap-x-4 border-t border-gray-200 pt-4">
+                                <div class="relative mt-8 flex items-center gap-x-4 border-t border-gray-400 pt-4">
                                     <img class="h-10 w-10 rounded-full object-cover" src="{{ $article->author->profile_photo_url }}" alt="{{ $article->author->name }}">
                                     <div class="text-sm leading-6">
                                         <p class="font-semibold text-gray-900">

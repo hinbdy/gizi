@@ -16,6 +16,7 @@
   <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet">
   
+  
   {{-- --- PERBAIKAN UTAMA ADA DI SINI --- --}}
   {{-- Memanggil semua CSS dan JS utama Anda melalui satu perintah Vite --}}
   @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -40,9 +41,8 @@
   {{-- --- BAGIAN SCRIPT DI BAWAH INI DIRAPIKAN --- --}}
   {{-- Hanya @livewireScripts yang perlu ada di sini sebelum body ditutup.
        Semua script lain akan dikelola oleh app.js yang dipanggil Vite di <head>. --}}
-
-  @stack('scripts')
   <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
+  @stack('scripts')
   @livewireScripts
 </body>
 </html>

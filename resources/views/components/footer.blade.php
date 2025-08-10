@@ -1,4 +1,4 @@
-<footer class="relative overflow-hidden text-gizila-dark">
+<footer class="relative overflow-hidden text-gizila-dark border-t border-gizila-dark">
     {{-- Background radial --}}
     <div class="absolute inset-0 z-0 bg-gizila-radial"></div>
 
@@ -93,8 +93,7 @@
     </div>
 
     {{-- Garis Pembatas --}}
-    <div class="border-t border-gizila-dark"></div>
-
+    <div class="relative overflow-hidden border-t border-gizila-dark"></div>
      {{-- Copyright --}}
   <div class="bg-white/100 text-center py-4 relative z-10">
   <p class="text-xl font-semibold">

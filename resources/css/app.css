@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+    scroll-behavior: smooth;
+}
 :root {
   /* Warna untuk LIGHT MODE (Tampilan Terang) */
   --chart-grid-color: rgba(0, 0, 0, 0.1);    /* Garis grid abu-abu gelap transparan */
@@ -54,6 +57,34 @@
   display: flex;
   align-items: center;
 }
+
+/* 1. Jadikan container sebagai acuan posisi dan beri ruang untuk panah */
+.ts-control {
+    position: relative;
+    /* Padding kanan agar teks tidak tertimpa panah */
+    padding-right: 2rem !important; 
+}
+
+/* 2. Buat & tampilkan panah HANYA saat dropdown BELUM terisi */
+/* TomSelect otomatis menambahkan class '.full' saat ada isinya */
+.ts-control:not(.full)::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 0.75rem; /* Jarak dari kanan (12px) */
+    transform: translateY(-50%) translateY(-1px); /* Posisikan di tengah vertikal */
+    
+    /* Ini adalah kode untuk "menggambar" segitiga ke bawah */
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #6b7280; /* Warna abu-abu (gray-500) */
+    
+    opacity: 0.6; /* Sedikit transparan agar tidak terlalu mencolok */
+    pointer-events: none; /* Agar panah tidak bisa diklik */
+}
+
 
 @layer utilities {
   /* Hide scrollbar */

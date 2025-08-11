@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Article;
 use Livewire\Component;
+use App\Models\Comment; 
 
 class ArticleComments extends Component
 {
@@ -80,6 +81,7 @@ class ArticleComments extends Component
 
         $this->validate($rules);
 
+        
         $commentData = [
             'body' => $this->mainComment['body'],
         ];
@@ -92,9 +94,11 @@ class ArticleComments extends Component
         }
 
         $this->article->comments()->create($commentData);
+        $this->article->refresh(); 
 
         $this->reset('mainComment');
         session()->flash('message', 'Komentar berhasil ditambahkan!');
+        $this->dispatch('comment-added');
     }
 
     /**
@@ -131,7 +135,7 @@ class ArticleComments extends Component
         }
 
         $this->article->comments()->create($commentData);
-
+        $this->article->refresh();
         $this->reset('replyComment', 'replyingTo');
         session()->flash('message', 'Balasan berhasil dikirim!');
     }
@@ -157,11 +161,12 @@ class ArticleComments extends Component
 
     public function deleteComment($commentId)
 {
-    $comment = $this->article->comments()->find($commentId);
-    if ($comment) {
+    $comment = Comment::with('replies')->find($commentId);
+     if ($comment) {
+        $comment->replies()->delete();
         $comment->delete();
+        $this->article->refresh();
         session()->flash('message', 'Komentar berhasil dihapus!');
     }
 }
-
 }

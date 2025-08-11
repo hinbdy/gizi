@@ -24,7 +24,7 @@
                         type="text" 
                         name="search" 
                         value="{{ request('search') }}"
-                        placeholder="Cari artikel... lalu klik enter" 
+                        placeholder="Cari judul artikel... lalu klik enter" 
                         class="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-gizila-dark bg-white dark:bg-white dark:border-gray-600 dark:text-black">
                     {{-- Tombol Kirim (ikon search klik-able di kanan) --}}
                     <button type="submit" class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-400 hover:text-gizila-dark transition">
@@ -39,7 +39,11 @@
                 </a>
             </div>
         </div>
-
+        @if (session('success'))
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg relative mb-4" role="alert">
+                {{ session('success') }}
+            </div>
+        @endif
         <div class="overflow-x-auto">
             <table class="w-full table-auto text-left border-collapse">
                 <thead>

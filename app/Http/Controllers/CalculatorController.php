@@ -28,15 +28,24 @@ class CalculatorController extends Controller
             $kategoriIMT = $this->getBMICategory($bmi);
             $kategoriBB = strtolower($kategoriIMT);
             $kategoriBeratIdeal = strtolower($kategoriIMT);
+            
 
              // Link gambar kategori BB (Berat Badan)
-            $bbImages = [
-                'kurus' => asset('assets/images/kategori/kurus.png'),
-                'normal' => asset('assets/images/kategori/normal.png'),
-                'gemuk' => asset('assets/images/kategori/gemuk.png'),
-                'obesitas' => asset('assets/images/kategori/obesitas.png'),
-            ];
-            $bbImage = $bbImages[strtolower($kategoriBB)] ?? asset('assets/images/kategori/default.png');
+            // $bbImages = [
+            //     'kurus' => asset('assets/images/kategori/cewe-kurus.png'),
+            //     'normal' => asset('assets/images/kategori/cewe-normal.png'),
+            //     'gemuk' => asset('assets/images/kategori/cewe-gemuk.png'),
+            //     'obesitas' => asset('assets/images/kategori/cewe-obesitas.png'),
+            // ];
+            // $bbImage = $bbImages[strtolower($kategoriBB)] ?? asset('assets/images/kategori/default.png');
+
+            $kategoriSlug = strtolower($kategoriIMT);
+            $imagePath = "assets/images/kategori/{$jenisKelamin}-{$kategoriSlug}.png";
+
+            $bbImage = file_exists(public_path($imagePath))
+            ? asset($imagePath)
+            : asset('assets/images/kategori/default.png'); 
+
 
             // Hitung BMR (Harris-Benedict)
             if ($jenisKelamin === 'male') {
@@ -81,10 +90,10 @@ class CalculatorController extends Controller
 
              // Link gambar kategori berat ideal
             $idealImages = [
-                'kurus' => asset('assets/images/kategori/timbang.png'),
-                'normal' => asset('assets/images/kategori/timbang.png'),
-                'gemuk' => asset('assets/images/kategori/timbang.png'),
-                'obesitas' => asset('assets/images/kategori/timbang.png'),
+                'kurus' => asset('assets/images/kategori/timbang-kurus.png'),
+                'normal' => asset('assets/images/kategori/timbang-normal.png'),
+                'gemuk' => asset('assets/images/kategori/timbang-gemuk.png'),
+                'obesitas' => asset('assets/images/kategori/timbang-obesitas.png'),
             ];
             $idealImage = $idealImages[strtolower($kategoriBeratIdeal)] ?? asset('assets/images/kategori/default.png');
                 // Simpan ke session

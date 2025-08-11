@@ -1,50 +1,45 @@
-// 1. Ganti `require` dengan `import` yang sesuai untuk Vite
 import './bootstrap';
 
-// 2. Import semua library yang kita butuhkan
+// Import semua library
 import Flickity from 'flickity';
-import 'flickity/css/flickity.css'; // Import juga CSS-nya
-import Alpine from 'alpinejs';
-import persist from '@alpinejs/persist'; 
-import intersect from '@alpinejs/intersect';
+import 'flickity/css/flickity.css';
 import TomSelect from 'tom-select';
-window.TomSelect = TomSelect; 
+window.TomSelect = TomSelect;
 
+// Import Livewire untuk menggunakan hooks
+import { Livewire } from '../../vendor/livewire/livewire/dist/livewire.esm';
+
+import Alpine from 'alpinejs';
+import persist from '@alpinejs/persist';
+import intersect from '@alpinejs/intersect';
+
+// 1. Daftarkan SEMUA plugin terlebih dahulu
 Alpine.plugin(persist);
+Alpine.plugin(intersect);
+
+// 2. Jadikan Alpine global
 window.Alpine = Alpine;
-Alpine.start();
-Alpine.plugin(intersect); 
-// 3. Kita bungkus semua logika inisialisasi Anda ke dalam satu fungsi
+
+// 3. Baru jalankan Alpine
+// Alpine.start();
+Livewire.start();
+
+document.addEventListener('alpine:init', () => {
+    // Setelah Alpine dari Livewire siap, tambahkan plugin ke dalamnya
+    window.Alpine.plugin(persist);
+    window.Alpine.plugin(intersect);
+    console.log('Alpine plugins loaded into Livewire\'s Alpine instance.');
+});
+
+
+// Fungsi untuk menginisialisasi plugin JavaScript Anda
 function initializePlugins() {
+    console.log('Plugins re-initialized by Livewire hook.'); // Untuk debugging
 
-    console.log('Plugins initialized'); // Pesan ini akan muncul di console browser, untuk debugging
-
-    // ==========================================================
-    // --- SEMUA KODE ANDA YANG PENTING DIMASUKKAN DI SINI ---
-    // ==========================================================
-
-    // Dropdown menu (Navbar)
-    const dropdownButtons = document.querySelectorAll('.menu-button');
-    const dropdownMenus = document.querySelectorAll('.dropdown-menu');
-    dropdownButtons.forEach((btn, index) => {
-        const menu = dropdownMenus[index];
-        if (btn && menu) {
-            // ... (logika dropdown Anda, tidak diubah)
-        }
-    });
-
-    // Search input reset button
-    const searchInput = document.getElementById('searchInput');
-    const resetButton = document.getElementById('resetButton');
-    if (searchInput && resetButton) {
-        // ... (logika search reset Anda, tidak diubah)
-    }
-
-    // Flickity carousel
+    // Logika Dropdown, Search, dll. Anda letakkan di sini...
+    // Contoh: Flickity carousel
     const carousel = document.querySelector('.testi-carousel');
     if (carousel) {
-        // Cek jika flickity sudah ada, hancurkan dulu sebelum membuat yang baru
-        // Ini mencegah error "bad cell" pada update Livewire
         let flkty = Flickity.data(carousel);
         if (flkty) {
             flkty.destroy();
@@ -70,17 +65,8 @@ function initializePlugins() {
     }
 }
 
-
-// ===================================================================
-// --- INI ADALAH KUNCI UTAMA PERBAIKANNYA ---
-// ===================================================================
-
-// 4. Jalankan fungsi di atas saat halaman pertama kali dimuat
-document.addEventListener('DOMContentLoaded', () => {
-    initializePlugins();
-});
-
-// 5. Jalankan KEMBALI fungsi di atas SETIAP KALI Livewire selesai memperbarui halaman
-document.addEventListener('livewire:navigated', () => {
-    initializePlugins();
+document.addEventListener('livewire:init', () => {
+    Livewire.hook('element.init', () => {
+        initializePlugins();
+    });
 });

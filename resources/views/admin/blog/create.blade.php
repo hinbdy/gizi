@@ -65,7 +65,7 @@
             x-show="open" 
             @click.away="open = false" 
             x-transition 
-            class="absolute z-10 mt-1 w-full rounded-md shadow-lg border border-gray-300 bg-gizila-radial" 
+            class="absolute z-10 mt-1 w-full rounded-md shadow-lg border border-gray-300 bg-[#d6f6e4]" 
             style="display: none;"
         >
             <template x-for="option in options" :key="option.value">

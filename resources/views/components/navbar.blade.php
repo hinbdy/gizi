@@ -26,7 +26,7 @@
         type="text"
         name="search"
         id="searchInput"
-        placeholder="Cari artikel..."
+        placeholder="Cari judul artikel..."
         value="{{ request('search') }}"
         class="flex-1 bg-transparent focus:outline-none text-sm text-gray-700"
         autocomplete="off"

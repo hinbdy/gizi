@@ -113,17 +113,18 @@
                     </div>
                 </div>
                 @endif          
+
                     @livewire('article-comments', ['article' => $article])
 
                 </div>
-                </div>
+                
                 {{-- --- KOLOM SIDEBAR (KANAN) --- --}}
                 <aside class="lg:col-span-1 space-y-10 lg:sticky lg:top-24 self-start">
                     
                     {{-- Widget Pencarian --}}
                     <div class="rounded-2xl bg-white p-6 shadow-sm border">
                         <form action="{{ route('blog.index') }}" method="GET">
-                            <label for="search-sidebar" class="font-semibold text-gray-700 mb-2 block">Cari Artikel</label>
+                            <label for="search-sidebar" class="font-semibold text-gray-700 mb-2 block">Cari Judul Artikel</label>
                             <div class="relative">
                                 <input type="text" id="search-sidebar" name="search" placeholder="Ketik di sini..." class="w-full rounded-md px-3 py-2 border-gray-300 pr-10 focus:ring-green-500 focus:border-green-500">
                                 <button type="submit" class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-400 hover:text-green-700">

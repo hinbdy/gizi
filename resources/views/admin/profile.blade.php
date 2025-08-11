@@ -1,10 +1,6 @@
 <x-layouts.admin title="Pengaturan Profil">
     {{-- Alpine.js untuk mengatur tab aktif, defaultnya 'profile' --}}
     <div x-data="{ activeTab: 'profile' }" class="space-y-6">
-
-        {{-- ======================================================= --}}
-        {{-- Tombol Navigasi Tab (DENGAN PERBAIKAN) --}}
-        {{-- ======================================================= --}}
         <div class="border-b border-gray-200 dark:border-white/10">
             <nav class="-mb-px flex space-x-6">
                 {{-- PERBAIKAN: Menambahkan data-tab-target="profile" --}}
@@ -52,19 +48,34 @@
                 <form method="POST" action="{{ route('admin.profile.update') }}" enctype="multipart/form-data" class="space-y-4">
                     @csrf
                     @method('PUT')
-                    <div class="flex items-center space-x-4">
-                        @if ($user->photo)
-                            <img src="{{ asset('storage/' . $user->photo) }}" alt="Foto Profil" class="w-16 h-16 rounded-full object-cover">
-                        @else
-                            <div class="w-16 h-16 bg-gray-300 rounded-full flex items-center justify-center text-white text-xl font-bold">
-                                {{ strtoupper(substr($user->name, 0, 1)) }}
+                    {{-- Tambahkan x-data di div pembungkus utama --}}
+                        <div x-data="{ photoName: null }" class="flex items-center space-x-4">
+                            
+                            {{-- Bagian ini tidak berubah --}}
+                            @if ($user->photo)
+                                <img src="{{ asset('storage/' . $user->photo) }}" alt="Foto Profil" class="w-16 h-16 rounded-full object-cover">
+                            @else
+                                <div class="w-16 h-16 bg-gray-300 rounded-full flex items-center justify-center text-white text-xl font-bold">
+                                    {{ strtoupper(substr($user->name, 0, 1)) }}
+                                </div>
+                            @endif 
+                            <div>
+                                <label for="photo" class="cursor-pointer bg-gray-200 text-black font-semibold py-1 px-3 rounded-md text-sm hover:bg-gray-300">Ubah Foto</label>   
+                                {{-- Tambahkan @change pada input file --}}
+                                <input 
+                                    type="file" 
+                                    name="photo" 
+                                    id="photo" 
+                                    accept="image/*" 
+                                    class="hidden"
+                                    @change="photoName = $event.target.files.length > 0 ? $event.target.files[0].name : null">
+                                {{-- TAMBAHKAN BLOK INI UNTUK MENAMPILKAN NAMA FILE --}}
+                                <div x-show="photoName" class="mt-2" x-cloak>
+                                    <span class="text-sm text-gray-500 dark:text-gray-400">File terpilih:</span>
+                                    <span x-text="photoName" class="text-sm font-semibold text-black dark:text-gizila-dark"></span>
+                                </div>
                             </div>
-                        @endif
-                        <div>
-                            <label for="photo" class="cursor-pointer bg-gray-200 text-black font-semibold py-1 px-3 rounded-md text-sm hover:bg-gray-300">Ubah Foto</label>
-                            <input type="file" name="photo" id="photo" accept="image/*" class="hidden">
                         </div>
-                    </div>
                     <div>
                         <label class="block text-sm font-semibold text-gray-600 dark:text-black ">Nama</label>
                         <input type="text" name="name" value="{{ old('name', $user->name) }}" class="mt-1 w-full border border-gray-300 rounded-lg p-2 bg-[#d6f6e4] dark:border-gray-600 dark:text-black">

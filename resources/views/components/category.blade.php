@@ -19,7 +19,7 @@
             @foreach([
                 ['icon' => 'imt.png', 'title' => 'Kalkulator BMI', 'desc' => 'Hitung indeks massa tubuh kamu !', 'route' => route('bmi.calculator')],
                 ['icon' => 'kalkulator.png', 'title' => 'Gizi Harian', 'desc' => 'Hitung kebutuhan gizi harian kamu !', 'route' => route('nutrition.calculator')],
-                ['icon' => 'pola-makan.png', 'title' => 'Artikel', 'desc' => 'Informasi dan edukasi seputar gizi.', 'route' => route('blog.index')],
+                ['icon' => 'pola-makan.png', 'title' => 'Artikel Gizila', 'desc' => 'Informasi dan edukasi.', 'route' => route('blog.index')],
             ] as $i => $feature)
                 <a 
                     href="{{ $feature['route'] }}"

@@ -95,7 +95,7 @@
     {{-- Garis Pembatas --}}
     <div class="relative overflow-hidden border-t border-gizila-dark"></div>
      {{-- Copyright --}}
-  <div class="bg-white/100 text-center py-4 relative z-10">
+  <div class="bg-gizila-radial text-center py-4 relative z-10">
   <p class="text-xl font-semibold">
     <span class="text-font-semibold text-black">©</span>
     <span class="text-gizila-dark"><a href="/">GIZILA</a></span>

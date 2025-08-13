@@ -8,7 +8,7 @@
              </span>
          </h2>
             <p class="mt-2 text-lg leading-8 text-gray-600">
-                Dapatkan informasi terbaru dari Gizila.
+                Temukan informasi terbaru dari Gizila.
             </p>
         </div>
 

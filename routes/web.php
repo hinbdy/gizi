@@ -148,6 +148,7 @@ Route::get('/kalkulator-gizi-harian', function () {
     ]);
 })->name('nutrition.calculator');
 
+Route::get('/kalkulator-gizi-harian/reset', [CalculatorController::class, 'resetNutritionCalculator'])->name('nutrition.reset');
 
 Route::post('/kalkulator-gizi-harian/hitung', [CalculatorController::class, 'calculateNutrition'])->name('nutrition.calculate');
 

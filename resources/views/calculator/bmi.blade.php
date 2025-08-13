@@ -1,12 +1,13 @@
 <x-layout :title="$title">
   <section class="min-h-screen bg-gizila-radial py-24 px-4">
-    <div class="container mx-auto bg-[#d6f6e4] rounded-xl shadow-xl p-8">
-      <h1 class="text-3xl md:text-4xl font-bold text-center text-gizila-dark mb-6">
+    <div class="container mx-auto bg-[#d6f6e4] rounded-xl shadow-xl p-10">
+      <h1 class="text-3xl md:text-4xl font-bold text-center text-gizila-dark mb-4">
         Hitung Indeks Massa Tubuh (IMT)
       </h1>
+      <p class="text-sm text-center font-medium text-grey-300 mt-2">Cek status berat badan ideal Anda di sini.</p>
 
       {{-- 1) FORM INPUT --}}
-      <form method="POST" action="{{ route('bmi.calculate') }}" class="space-y-6">
+      <form method="POST" action="{{ route('bmi.calculate') }}" class="space-y-10">
         @csrf
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -63,7 +64,7 @@
                 {{-- Opsi Laki-laki --}}
                 <label class="cursor-pointer">
                     <input type="radio" name="jenis_kelamin" value="male" class="sr-only peer" {{ old('jenis_kelamin', $jenisKelamin ?? '') == 'male' ? 'checked' : '' }} required>
-                    <div class="bg-[#fef5ee] rounded-xl p-2 border-4 peer-checked:border-green-700 shadow flex flex-col items-center justify-center h-32 text-center transition-all duration-200">
+                    <div class="bg-[#fefcf4] rounded-xl p-2 border-4 peer-checked:border-green-700 shadow flex flex-col items-center justify-center h-32 text-center transition-all duration-200">
                         {{-- URL IKON BARU (POLOS HITAM) --}}
                         <img src="{{ asset('assets/images/ava.cwk.png') }}" alt="Ikon Laki-laki" class="h-16 w-16 object-contain mb-2">
                         <p class="font-semibold text-gray-700 leading-tight">Laki-laki</p>

@@ -1,6 +1,6 @@
         <x-layout :title="$title ?? 'Kalkulator Gizi Harian'">
             <section class="min-h-screen bg-gizila-radial py-24 px-4">
-                <div class="container mx-auto bg-[#d6f6e4] rounded-xl shadow-xl p-8">
+                <div class="container mx-auto bg-[#d6f6e4] rounded-xl shadow-xl p-10">
                 @php
                 $foodsJson = json_encode($foods->map(function($food) {
                     return [

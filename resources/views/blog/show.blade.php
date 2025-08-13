@@ -87,7 +87,7 @@
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                             @foreach ($relatedArticles as $related)
                                 {{-- 1. Tambahkan `group` untuk mengaktifkan efek hover pada elemen turunan --}}
-                                <div class="group bg-white rounded-xl shadow transition-all duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1">
+                                <div class="group bg-[#d6f6e4] rounded-xl shadow transition-all duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1">
                                     {{-- 2. Tambahkan `overflow-hidden` agar efek zoom gambar tidak keluar dari kotak --}}
                                     <div class="overflow-hidden rounded-t-xl">
                                         <a href="{{ route('blog.show', $related->slug) }}">
@@ -99,7 +99,7 @@
                                     </div>
                                     <div class="p-4">
                                         {{-- 4. Ubah `span` kategori menjadi `a` (link) --}}
-                                        <a href="{{ route('category.show', $related->category->slug ?? 'umum') }}" class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full font-semibold hover:bg-green-200 transition-colors">
+                                        <a href="{{ route('category.show', $related->category->slug ?? 'umum') }}" class="text-xs bg-green-50 text-green-800 px-2 py-1 rounded-full font-semibold hover:bg-green-100 transition-colors">
                                             {{ $related->category->name ?? 'Umum' }}
                                         </a>
                                         <a href="{{ route('blog.show', $related->slug) }}"
@@ -122,11 +122,11 @@
                 <aside class="lg:col-span-1 space-y-10 lg:sticky lg:top-24 self-start">
                     
                     {{-- Widget Pencarian --}}
-                    <div class="rounded-2xl bg-white p-6 shadow-sm border">
+                    <div class="rounded-2xl bg-[#d6f6e4] p-6 shadow-sm border">
                         <form action="{{ route('blog.index') }}" method="GET">
                             <label for="search-sidebar" class="font-semibold text-gray-700 mb-2 block">Cari Judul Artikel</label>
                             <div class="relative">
-                                <input type="text" id="search-sidebar" name="search" placeholder="Ketik di sini..." class="w-full rounded-md px-3 py-2 border-gray-300 pr-10 focus:ring-green-500 focus:border-green-500">
+                                <input type="text" id="search-sidebar" name="search" placeholder="Ketik di sini..." class="w-full rounded-md px-3 py-2 bg-gray-100 border-gray-300 pr-10 focus:ring-green-500 focus:border-green-500">
                                 <button type="submit" class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-400 hover:text-green-700">
                                     <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" /></svg>
                                 </button>
@@ -135,7 +135,7 @@
                     </div>
 
                     {{-- Widget Artikel Terbaru --}}
-                    <div class="rounded-2xl bg-white p-6 shadow-sm border">
+                    <div class="rounded-2xl bg-[#d6f6e4] p-6 shadow-sm border">
                         <h3 class="text-xl font-bold text-gray-900 mb-6">Artikel Terbaru</h3>
                         <ul class="space-y-5">
                             @forelse($latestArticles as $latest)
@@ -157,7 +157,7 @@
                     </div>
                     
                     {{-- Widget Kategori (Kode Anda, dipindahkan ke sini) --}}
-                    <div class="rounded-2xl bg-white p-6 shadow-sm border">
+                    <div class="rounded-2xl bg-[#d6f6e4] p-6 shadow-sm border">
                         <h3 class="text-xl font-bold text-gray-900 mb-6">Kategori</h3>
                         <ul class="space-y-3">
                             @forelse($categories as $category)
